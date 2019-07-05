@@ -1,8 +1,12 @@
-var express = require('express');
-var router = express.Router();
-const user = require('./user/index')
-const challenge = require('./challenge/index')
-router.use('/',user)
-router.use('/challenge',challenge)
+'use strict';
 
-module.exports = router;
+const fs = require('fs');
+const list = fs.readdirSync(__dirname).filter(dir => !dir.match(/(^\.)|index/i));
+const router = require('express').Router();
+
+
+module.exports = (app) => {
+  for (let ctrl of list) {
+    app.use('/api', require(`./${ctrl}`)(router));
+  }
+};
