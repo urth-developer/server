@@ -31,7 +31,7 @@ router.post('/',(req,res)=>{
         }
         else if(result.length < 1)
         {
-          res.send(utils.successFalse(statusCode.NO_CONTENT, responseMessage.ID_OR_PW_WRONG_VALUE))
+          res.json(utils.successFalse(statusCode.NO_CONTENT, responseMessage.ID_OR_PW_WRONG_VALUE))
         }
         else
         {
@@ -43,9 +43,9 @@ router.post('/',(req,res)=>{
               let data ={
                 "token" : token.token 
               }
-              res.send(utils.successTrue(statusCode.OK,responseMessage.LOGIN_SUCCESS,data))
+              res.json(utils.successTrue(statusCode.OK,responseMessage.LOGIN_SUCCESS,data))
           }).catch(()=>{
-              res.send(utils.successFalse(statusCode.NO_CONTENT,responseMessage.ID_OR_PW_WRONG_VALUE))
+              res.json(utils.successFalse(statusCode.NO_CONTENT,responseMessage.ID_OR_PW_WRONG_VALUE))
           })
         }
       
