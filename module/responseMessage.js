@@ -13,7 +13,9 @@ module.exports = {
     EMPTY_TOKEN : "헤더에 토큰이 없습니다.",
     EXPRIED_TOKEN : "토큰이 만기 되었습니다",
     INVALID_TOKEN : "토큰이 유효하지 않습니다.",
-    CREATE_CHALLENGE_SUCCESS : "챌린지 개설 건의 성공했습니다."
+    CREATE_CHALLENGE_SUCCESS : "챌린지 개설 건의 성공했습니다.",
+    SEARCH_TOP10_CHALLENGE_LIST_SUCCESS : "top10 챌린지 리스트 조회 성공했습니다.",
+    SEARCH_BOOKMARK_CHALLENGE_LIST_SUCCESS : "즐켜찾기 챌린지 리스트 조히 성공했습니다."
     
    
    

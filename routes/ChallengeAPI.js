@@ -6,17 +6,9 @@ const auth = require('../module/authUtils')
 module.exports = (router) => {
 
   router.route('/challenge')
-  .post(auth.isLoggedin,upload.single('image'),challengeController.createChallenge);
-
-  router.route('/challenge/theme')
-  .get(challengeController.searchThemeChallengeList)
-
+  .post(auth.isLoggedin,upload.single('image'),challengeController.createChallenge)
   router.route('/challenge/favorite')
-  .get(challengeController.searchBookMarkChallengeList)
-
-  router.route('/challenge/hot')
-  .get(challengeController.searchHotChallengeList)
-
+  .get(auth.isLoggedin,challengeController.searchBookMarkChallengeList)
   router.route('/challenge/top10')
   .get(challengeController.searchTop10ChallengeList)
 
