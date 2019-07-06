@@ -27,6 +27,7 @@ const UserController = {
       return res.json(result);
 
     } catch (e) {
+      
       return res.json(e);
     }
 

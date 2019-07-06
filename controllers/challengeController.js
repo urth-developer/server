@@ -1,6 +1,8 @@
 
 const challengeModel =  require('../models/challengeModel')
-
+const responseMessage = require('../module/responseMessage')
+const statusCode = require('../module/statusCode')
+const utils = require('../module/utils')
 const challengeController ={
 
     createChallenge :async (req,res,next)=>{
@@ -11,33 +13,71 @@ const challengeController ={
         /*****
          * express-validation 필요 ,Parameter에 대한 오류 처리
          */
-        const result = await challengeModel.insertChallenge(title,categoryIdx,explanation,image)
+
+        const result = await challengeModel.insertChallenge(title,categoryIdx,explanation,image,next)
+        utils.successTrue(statusCode.OK,responseMessage.CREATE_CHALLENGE_SUCCESS)
         }
-        catch(e)
-        {
-
-
+        catch(error)
+        {    
+            return next(500)
         }
 
     },
 
-    searchTop10ChallengeList :async (next)=>{
+    searchTop10ChallengeList :async (req,res,next)=>{
 
+    try{
+
+        await challengeModel.searchTop10ChallengeList()
+
+    }
+    catch(error)
+        {    
+            return next(error)
+        }
 
     },
 
-    searchThemeChallengeList : async(next)=>{
+    searchThemeChallengeList : async(req,res,next)=>{
 
+
+        try{
+
+
+        }
+        catch(error)
+            {    
+                return next(error)
+            }
+    
     },
 
-    searchHotChallengeList : async(next)=>{
+    searchHotChallengeList : async(req,res,next)=>{
 
 
+        try{
+
+
+        }
+        catch(error)
+            {    
+                return next(error)
+            }
+    
     },
 
-    searchBookMarkChallengeList : async(userIdx)=>{
+    searchBookMarkChallengeList : async(req,res,next)=>{
 
 
+        try{
+
+
+        }
+        catch(error)
+            {    
+                return next(error)
+            }
+    
 
     }
 }

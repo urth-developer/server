@@ -7,6 +7,6 @@ const router = require('express').Router();
 
 module.exports = (app) => {
   for (let ctrl of list) {
-    app.use('/api', require(`./${ctrl}`)(router));
+    app.use('/urth', require(`./${ctrl}`)(router));
   }
 };
