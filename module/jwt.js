@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { secretKey } = require("../config/secretkey");
 const options = {
   algorithm: "HS256",
-  expiresIn: "24h* 365",
+  expiresIn: "365d",
   issuer: "soptoon"
 };
 // const refreshOptions = {
@@ -29,7 +29,7 @@ module.exports = {
   verify: token => {
     let decoded;
     try {
-      decoded = jwt.verify(token, secretKey);
+      decoded = jwt.verify(token, secretKey, options);
     } catch (err) {
       if (err.message === "jwt expired") {
         console.log("expired token");

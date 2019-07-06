@@ -22,7 +22,9 @@ const jwt = require("../module/jwt");
 // ===============================================================
 
 // Routes
-router.post("/", async (req, res) => {
+router.get("/", async (req, res) => {
+  //
+
   // Validation
   const { error } = validate.signin(req.body);
   if (error)
@@ -35,7 +37,6 @@ router.post("/", async (req, res) => {
     const selectIdQuery = `SELECT * FROM user WHERE id=?`;
     const selectIdQueryResult = await pool.query(selectIdQuery, [req.body.id]);
     const user = selectIdQueryResult[0][0];
-    const { userIdx, id, nickname, level, experiencePoint, profileImg } = user;
 
     if (!user)
       return res
@@ -59,19 +60,10 @@ router.post("/", async (req, res) => {
     // Create JSON Web Token
     const result = jwt.sign(user.userIdx); // {token: <token string>}
 
-    // send response
-    const responseData = {
-      ...result,
-      userIdx,
-      id,
-      nickname,
-      level,
-      experiencePoint,
-      profileImg
-    };
+    // Response with token
     return res
       .status(200)
-      .json(successTrue(statusCode.OK, message.SIGNIN_SUCCESS, responseData));
+      .json(successTrue(statusCode.OK, message.SIGNIN_SUCCESS, result));
   } catch (err) {
     console.log(err);
     return res
