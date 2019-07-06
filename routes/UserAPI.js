@@ -15,6 +15,5 @@ module.exports = (router) => {
     .get()
     .post();
 
-
   return router
 };
