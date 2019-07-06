@@ -16,9 +16,8 @@ const encryption = require("../module/encryption");
 // Validation
 const validate = require("../module/validate");
 
-// Token
-const jwt = require("jsonwebtoken");
-const { secretKey } = require("../config/secretkey");
+// Token function
+const jwt = require("../module/jwt");
 
 // ===============================================================
 
@@ -57,15 +56,18 @@ router.post("/", async (req, res) => {
         .json(successFalse(statusCode.BAD_REQUEST, message.ID_OR_PW_WRO_VALUE));
 
     // Create JSON Web Token
-    const token = jwt.sign({ userIdx: user.userIdx }, secretKey);
+    const result = jwt.sign(user.userIdx); // {token: <token string>}
 
     // Response with token
-
-    const data = { token };
     return res
       .status(200)
-      .json(successTrue(statusCode.OK, message.SIGNIN_SUCCESS, data));
-  } catch (err) {}
+      .json(successTrue(statusCode.OK, message.SIGNIN_SUCCESS, result));
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(200)
+      .json(successFalse(statusCode.DB_ERROR, message.DB_ERR));
+  }
 });
 
 module.exports = router;
