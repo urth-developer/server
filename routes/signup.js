@@ -1,10 +1,9 @@
+// Node Package Modules
 var express = require("express");
 var router = express.Router();
 
-const config = require("../../config/dbConfig");
-const mysql = require("mysql");
-const pool = mysql.createPool(config);
-const bcrypt = require("bcrypt");
+// DB connection
+const pool = require("../config/dbConfig");
 
 // Response Messages
 const {
@@ -13,7 +12,7 @@ const {
   CREATED_USER,
   ALREADY_USER,
   NULL_VALUE
-} = require("../../module/responseMessage");
+} = require("../module/responseMessage");
 
 // Status Codes
 const {
@@ -23,51 +22,30 @@ const {
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
   DB_ERROR
-} = require("../../module/statusCode");
+} = require("../module/statusCode");
 
-// Reponse Utility Functions
-const { successTrue, successFalse } = require("../../module/responseFunction");
+// Reponse Functions
+const { successTrue, successFalse } = require("../module/utils");
 
 // Routes
 router.post("/", async (req, res) => {
-  const user = req.body;
-  const { id, name, password } = user;
-  const salt = await bcrypt.genSalt(10);
-  const hashed = await bcrypt.hash(password, salt);
+  // read id, nickname, password, image from body
+  const { id, nickname, password, image } = req.body;
 
-  pool.getConnection((err, connection) => {
-    if (err) {
-      connection.release();
-      res
-        .status(200)
-        .send(successFalse(INTERNAL_SERVER_ERROR, CONNECTION_FAIL));
-      return console.log(err);
-    }
-    connection.query(
-      "INSERT INTO user(id, name, password, salt) VALUES (?,?,?,?)",
-      [id, name, hashed, salt],
-      (err, result) => {
-        if (err) {
-          if (err.code === "ER_DUP_ENTRY") {
-            res.status(200).send(successFalse(BAD_REQUEST, ALREADY_USER));
-          } else {
-            res.status(200).send(successFalse(BAD_REQUEST, NULL_VALUE));
-          }
-          connection.release();
-          return console.log(err.code);
-        }
-        // get userIdx from DB
-        console.log(result);
+  // check if there is same id or nickname
 
-        connection.release();
-        res
-          .status(200)
-          .send(
-            successTrue(CREATED, CREATED_USER, { userIdx: result.insertId })
-          );
-      }
-    );
-  });
+  const selectIdQuery = `SELECT * FROM user WHERE id='b'`;
+  const result = await pool.query(selectIdQuery);
+
+  console.log(result);
+
+  if (result[0].length === 0) return console.log("no match");
+
+  // if it is not unique, send an error message
+
+  // if it is unique, hash the password
+
+  // save it to DB and send success message
 });
 
 module.exports = router;
