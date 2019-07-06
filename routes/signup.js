@@ -34,10 +34,10 @@ router.post("/", async (req, res) => {
 
   // check if there is same id or nickname
 
-  const selectIdQuery = `SELECT * FROM user WHERE id='b'`;
-  const result = await pool.query(selectIdQuery);
+  const selectIdQuery = `SELECT * FROM user WHERE id='${id}' OR nickname='${nickname}'`;
+  const duplicateUsers = await pool.query(selectIdQuery)[0];
 
-  console.log(result);
+  const duplicateExists = duplicateUsers.length > 0;
 
   if (result[0].length === 0) return console.log("no match");
 
