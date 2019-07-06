@@ -1,11 +1,12 @@
 'use strict';
 
 const challengeController  = require('../controllers/ChallengeController');
-
+const upload = require('../config/multer')
+const auth = require('../module/authUtils')
 module.exports = (router) => {
 
   router.route('/challenge')
-  .post(challengeController.createChallenge);
+  .post(auth.isLoggedin,upload.single('image'),challengeController.createChallenge);
 
   router.route('/challenge/theme')
   .get(challengeController.searchThemeChallengeList)

@@ -1,11 +1,23 @@
-const path = require('path')
-const controllerPath = path.join(__dirname,'../controllers')
-const challengeModel =  require(path.join(controllerPath,'/challengeModel'))
+
+const challengeModel =  require('../models/challengeModel')
 
 const challengeController ={
 
     createChallenge :async (req,res,next)=>{
 
+        try{
+        const {title, categoryIdx ,explanation} = req.body;
+        const image = req.file.location;
+        /*****
+         * express-validation 필요 ,Parameter에 대한 오류 처리
+         */
+        const result = await challengeModel.insertChallenge(title,categoryIdx,explanation,image)
+        }
+        catch(e)
+        {
+
+
+        }
 
     },
 

@@ -22,7 +22,7 @@ const UserController = {
       }
 
       const userData = {id, password};
-      const result = await userModel.signIn(userData);
+      const result = await userModel.signIn(userData)
 
       return res.json(result);
 
