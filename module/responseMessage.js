@@ -6,6 +6,7 @@ module.exports = {
   OUT_OF_VALUE: "파라미터 값이 잘못되었습니다",
   ALREADY_USER: "이미 있는 ID 입니다.",
   SIGNUP_SUCCESS: "회원가입 성공했습니다.",
+  SIGNIN_SUCCESS: "로그인 성공.",
   ID_OR_PW_WRO_VALUE: "아이디/비밀번호 값이 잘못됬습니다.",
   CREATED_TABLE_SUCCESS: "게시물 등록 성공",
   CREATED_TABLE_FAIL: "게시물 등록 실패",

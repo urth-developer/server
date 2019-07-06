@@ -18,13 +18,14 @@ const validate = require("../module/validate");
 
 // Token
 const jwt = require("jsonwebtoken");
+const { secretKey } = require("../config/secretkey");
 
 // ===============================================================
 
 // Routes
 router.post("/", async (req, res) => {
   // Validation
-  const { error } = validate.signup(req.body);
+  const { error } = validate.signin(req.body);
   if (error)
     return res
       .status(200)
@@ -34,12 +35,14 @@ router.post("/", async (req, res) => {
     // check if id exists
     const selectIdQuery = `SELECT * FROM user WHERE id=?`;
     const selectIdQueryResult = await pool.query(selectIdQuery, [req.body.id]);
-    const user = selectIdQueryResult[0];
+    const user = selectIdQueryResult[0][0];
 
     if (!user)
       return res
         .status(200)
         .json(successFalse(statusCode.BAD_REQUEST, message.ID_OR_PW_WRO_VALUE));
+
+    console.log(req.body);
 
     // check if the password is authentic by comparing with the hashed password in the db
     const isValidPassword = await encryption.asyncVerifyConsistency(
@@ -54,23 +57,15 @@ router.post("/", async (req, res) => {
         .json(successFalse(statusCode.BAD_REQUEST, message.ID_OR_PW_WRO_VALUE));
 
     // Create JSON Web Token
-    const token = jwt.sign({ userIdx: user.userIdx });
+    const token = jwt.sign({ userIdx: user.userIdx }, secretKey);
 
     // Response with token
 
-    // save it to DB and send success message
-    const insertUserQuery =
-      "INSERT INTO user (id,nickname,password, salt) VALUES (?, ? ,? ,?)";
-    await pool.query(insertUserQuery, [id, nickname, cryptoPw, salt]);
+    const data = { token };
     return res
       .status(200)
-      .json(successTrue(statusCode.OK, message.SIGNUP_SUCCESS));
-  } catch (err) {
-    console.log(err);
-    return res
-      .status(200)
-      .json(successFalse(statusCode.DB_ERROR, message.DB_ERR));
-  }
+      .json(successTrue(statusCode.OK, message.SIGNIN_SUCCESS, data));
+  } catch (err) {}
 });
 
 module.exports = router;

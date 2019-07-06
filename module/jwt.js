@@ -19,8 +19,8 @@ module.exports = {
     };
 
     const result = {
-      token: jwt.sign(payload, secretOrPrivateKey, options)
-      // refreshToken: randtoken.uid(256)
+      token: jwt.sign(payload, secretOrPrivateKey, options),
+      refreshToken: randtoken.uid(256)
     };
     //refreshToken을 만들 때에도 다른 키를 쓰는게 좋다.
 
