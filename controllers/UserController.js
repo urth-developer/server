@@ -27,7 +27,7 @@ const UserController = {
       return res.json(result);
 
     } catch (e) {
-      throw e;
+      return res.json(e);
     }
 
   },
@@ -38,10 +38,14 @@ const UserController = {
 
 
       const data = {id, password, name};
+
+      const isUsed = await userModel.checkId(data.id);
+
       const result = await userModel.signUp(data);
 
+
     } catch (e) {
-      throw e;
+      return res.json(e);
     }
 
   },

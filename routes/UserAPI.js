@@ -9,7 +9,7 @@ module.exports = (router) => {
     .post(userController.signIn);
 
   router.route('/sign/up')
-    .post();
+    .post(userController.signUp);
 
   router.route('/users')
     .get()

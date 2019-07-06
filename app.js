@@ -46,7 +46,7 @@ const PORT = 3000;
 
 
 app.listen(PORT, () => {
-  console.info(`[ZEPETO-OpenApi-Server] Listening on Port ${PORT}`);
+  console.info(`[URTH-SERVER] Listening on Port ${PORT}`);
 });
 
 
