@@ -16,46 +16,47 @@ const encryption = require("../module/encryption");
 // Validation
 const validate = require("../module/validate");
 
+// Token
+const jwt = require("jsonwebtoken");
+
+// ===============================================================
+
 // Routes
 router.post("/", async (req, res) => {
-  // read id, nickname, password, image from body
-  const user = req.body;
-  const { id, nickname, password, image } = user;
-
   // Validation
-  const { error } = validate.signup(user);
+  const { error } = validate.signup(req.body);
   if (error)
     return res
       .status(200)
       .json(successFalse(statusCode.BAD_REQUEST, error.details[0].message));
 
   try {
-    // check if there is same id
+    // check if id exists
     const selectIdQuery = `SELECT * FROM user WHERE id=?`;
-    const selectIdQueryResult = await pool.query(selectIdQuery, [id]);
-    const duplicateId = selectIdQueryResult[0];
-    const isDuplicateId = duplicateId.length > 0;
+    const selectIdQueryResult = await pool.query(selectIdQuery, [req.body.id]);
+    const user = selectIdQueryResult[0];
 
-    if (isDuplicateId)
+    if (!user)
       return res
         .status(200)
-        .json(successFalse(statusCode.BAD_REQUEST, message.DUPLICATE_ID));
+        .json(successFalse(statusCode.BAD_REQUEST, message.ID_OR_PW_WRO_VALUE));
 
-    // check if there is same nickname
-    const selectNicknameQuery = `SELECT * FROM user WHERE nickname=?`;
-    const selectNicknameQueryResult = await pool.query(selectNicknameQuery, [
-      nickname
-    ]);
-    const duplicateNickname = selectNicknameQueryResult[0];
-    const isDuplicateNickname = duplicateNickname.length > 0;
+    // check if the password is authentic by comparing with the hashed password in the db
+    const isValidPassword = await encryption.asyncVerifyConsistency(
+      req.body.password,
+      user.salt,
+      user.password
+    );
 
-    if (isDuplicateNickname)
+    if (!isValidPassword)
       return res
         .status(200)
-        .json(successFalse(statusCode.BAD_REQUEST, message.DUPLICATE_NICKNAME));
+        .json(successFalse(statusCode.BAD_REQUEST, message.ID_OR_PW_WRO_VALUE));
 
-    // if it is unique, hash the password
-    const { cryptoPw, salt } = await encryption.asyncCipher(password);
+    // Create JSON Web Token
+    const token = jwt.sign({ userIdx: user.userIdx });
+
+    // Response with token
 
     // save it to DB and send success message
     const insertUserQuery =

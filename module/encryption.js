@@ -11,9 +11,9 @@ const encryption = {
   asyncVerifyConsistency: (pw, salt, dbPw) => {
     return new Promise(async (resolve, reject) => {
       if ((await crypto.hmac("sha1", salt)(pw)).toString("base64") === dbPw) {
-        resolve();
+        resolve(true);
       } else {
-        reject();
+        reject(false);
       }
     });
   }

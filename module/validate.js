@@ -1,11 +1,12 @@
 const Joi = require("@hapi/joi");
 
 module.exports = {
-  signup: user => {
+  signup: data => {
     const schema = {
       id: Joi.string()
         .max(45)
-        .required(),
+        .required()
+        .email(),
       nickname: Joi.string()
         .max(45)
         .required(),
@@ -14,6 +15,18 @@ module.exports = {
         .required(),
       image: Joi.string().max(200)
     };
-    return Joi.validate(user, schema);
+    return Joi.validate(data, schema);
+  },
+  signin: data => {
+    const schema = {
+      id: Joi.string()
+        .max(45)
+        .required()
+        .email(),
+      password: Joi.string()
+        .max(200)
+        .required()
+    };
+    return Joi.validate(data, schema);
   }
 };
