@@ -38,5 +38,11 @@ module.exports = router => {
   /***어스 성과 요약***/
   router.route("/challenge/summary").get(challengeController.summary);
 
+  /***검색 키워드 리스트 조회***/
+  router.route("/challenge/keyword").get(challengeController.keyword);
+
+  /***챌린지 상세보기***/
+  router.route("/challenge/:challengeIdx").get(auth.isLoggedin, challengeController.detail);
+
   return router;
 };

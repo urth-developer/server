@@ -51,6 +51,28 @@ const challengeModel = {
     } catch (e) {
       throw new Error(500);
     }
+  },
+
+  findKeywords: async () => {
+    const selectAllKeywordsQuery = "SELECT * FROM searchKeywords";
+
+    try {
+      let [keywords] = await db.query(selectAllKeywordsQuery);
+      return keywords;
+    } catch (e) {
+      throw new Error(500);
+    }
+  },
+
+  findChallengeDetailByChallengeIdx: async challengeIdx => {
+    const selectChallengeQuery =
+      "SELECT nickname AS creator, challenge.challengeIdx, authChallenge.userIdx AS participant, name, explanation, challenge.image, count, category FROM challenge INNER JOIN authChallenge ON challenge.challengeIdx=authChallenge.challengeIdx INNER JOIN user ON challenge.creator=user.userIdx WHERE challenge.challengeIdx=2";
+    try {
+      let [challengeDetail] = await db.query(selectChallengeQuery, [challengeIdx]);
+      return challengeDetail;
+    } catch (e) {
+      throw new Error(500);
+    }
   }
 };
 module.exports = challengeModel;

@@ -54,6 +54,41 @@ const challengeController = {
   insertTogetherChallenge: async (req, res, next) => {},
   searchTogetherChallenge: async (req, res, next) => {},
 
+  detail: async (req, res, next) => {
+    //challenge table: challengeIdx, name, explanation, image, count, category
+    //user table: creator,
+    //authChallenge table: totalSuccessCount, userSuccessCount, participantCount
+    //, percentage(클라 계산), currentLevelCount, cuuserSuccessCount(카테고리별로 고정되어있음), participantCount
+    try {
+      const userIdx = req.decoded.idx;
+
+      const challengeDetail = await challengeModel.findChallengeDetailByChallengeIdx(
+        req.params.challengeIdx
+      );
+
+      const totalSuccessCount = challengeDetail.length;
+      const participantArray = challengeDetail.map(elem => elem.participant);
+      const userSuccessCount = challengeDetail.filter(elem => elem.participant === userIdx).length;
+      const participantCount = [...new Set(participantArray)].length;
+
+      const returnData = {
+        ...challengeDetail[0],
+        participant: undefined,
+        totalSuccessCount,
+        participantCount,
+        userSuccessCount
+      };
+
+      return res
+        .status(200)
+        .json(
+          utils.successTrue(statusCode.OK, responseMessage.GET_CHALLENGE_DETAIL_SUCCESS, returnData)
+        );
+    } catch (err) {
+      return next(err);
+    }
+  },
+
   /***카테고리별 챌린지 리스트 조회 - 가인 ***/
   searchCategoryChallenge: async (req, res, next) => {
     // get all challenges that belong to a certain category
@@ -67,6 +102,17 @@ const challengeController = {
     } catch (err) {
       console.log(err);
       return res.status(200).json(utils.successFalse(statusCode.DB_ERROR, responseMessage.DB_ERR));
+    }
+  },
+
+  keyword: async (req, res, next) => {
+    try {
+      const keywords = await challengeModel.findKeywords();
+      return res
+        .status(200)
+        .json(utils.successTrue(statusCode.OK, responseMessage.GET_KEYWORDS_SUCCESS, keywords));
+    } catch (err) {
+      return next(err);
     }
   },
 
