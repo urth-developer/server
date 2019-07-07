@@ -1,55 +1,41 @@
-'use strict';
+"use strict";
 
+const pool = require("../config/dbConfig");
 
-const pool = require('../config/dbConfig').pool;
-
-
-const SEARCH_ID_QUERY = 'SELECT id FROM user WHERE id = ?';
-const INSERT_USER_QUERY = 'INSERT INTO user (id, name, password, salt) VALUES (?, ? ,? ,?)';
-
-
-const UserModel = {
-
-  signIn: async (userData) => {
-    try {
-
-      const [rows] = await pool.query(SEARCH_ID_QUERY, [userData.id, userData.password]);
-
-      console.log(rows);
-
-      return rows;
-    } catch (e) {
-      throw e;
-    }
+const userModel = {
+  findByUserIdx: async userIdx => {
+    const selectUserQuery = "SELECT * FROM user WHERE userIdx=?";
+    const [user] = await pool.query(selectUserQuery, [userIdx]);
+    return user[0];
   },
 
-  signUp: async (userData) => {
-    try {
-
-
-      const [rows] = await pool.query(INSERT_USER_QUERY, []);
-
-
-
-    } catch (e) {
-      throw e;
-    }
+  findById: async id => {
+    const selectIdQuery = `SELECT * FROM user WHERE id=?`;
+    const [user] = await pool.query(selectIdQuery, [id]);
+    return user[0];
   },
 
-  checkId: async (userData) => {
-    try {
-
-      const [rows] = await pool.query(SEARCH_ID_QUERY, [userData.id]);
-
-      console.log('rows', rows);
-      return rows;
-
-    } catch (e) {
-      throw e;
-    }
+  findByNickname: async nickname => {
+    const selectNicknameQuery = `SELECT * FROM user WHERE nickname=?`;
+    const [user] = await pool.query(selectNicknameQuery, [nickname]);
+    return user[0];
   },
 
+  create: async (id, nickname, cryptoPw, salt, profileImg) => {
+    const insertUserQuery =
+      "INSERT INTO user (id,nickname,password, salt, profileImg) VALUES (?, ? ,? ,?, ?)";
+    await pool.query(insertUserQuery, [id, nickname, cryptoPw, salt, profileImg]);
+  },
+
+  getUserAuthCountsByCategoryByUserIdx: async userIdx => {
+    const getUserAuthCountsByCategoryByUserIdxQuery =
+      "SELECT category, COUNT(*) AS categoryCount FROM authChallenge natural join challenge where userIdx=? GROUP BY category";
+    let [userAuthCountsByCategory] = await pool.query(getUserAuthCountsByCategoryByUserIdxQuery, [
+      userIdx
+    ]);
+    userAuthCountsByCategory = userAuthCountsByCategory.map(elem => elem.categoryCount);
+    return userAuthCountsByCategory;
+  }
 };
 
-
-module.exports = UserModel;
+module.exports = userModel;
