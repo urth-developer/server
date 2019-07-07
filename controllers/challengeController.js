@@ -59,24 +59,83 @@ const challengeController ={
     updateFavoriteChallengeOrder : async(req,res,next)=>{
 
 
+        try{
+     /*****
+         * express-validation 필요 ,Parameter에 대한 오류 처리
+         */
+        const userIdx = req.decoded.idx 
+        const favoriteChallengeList = req.body.favoriteChallengeList
+        await challengeModel.UpdateFavoriteChallengeOrder(userIdx,favoriteChallengeList)
+        res.json(utils.successTrue(statusCode.OK,responseMessage.UPDATE_BOOKMARK_CHALLENGE_SUCCESS))
+        }
+        catch(error)
+        {
+
+            return next(error)
+
+        }
 
 
     },
     deleteTogetherChallenge :async(req,res,next)=>{
 
+        try{
 
+            /*****
+             * express-validation 필요 ,Parameter에 대한 오류 처리
+             */
+            const usrIdx = req.decoded.idx
+            const challengeIdx = req.body.challengeIdx
+    
+            await challengeModel.DeleteTogetherChallenge(usrIdx,challengeIdx)
+            res.json(utils.successTrue(statusCode.OK,responseMessage.DeleteTogetherChallenge))
+            }
+            catch(error)
+            {
+    
+                return next(error)
+                
+            }
 
 
     },
     insertTogetherChallenge :async(req,res,next)=>{
 
+        try{
 
+        /*****
+         * express-validation 필요 ,Parameter에 대한 오류 처리
+         */
+        const usrIdx = req.decoded.idx
+        const challengeIdx = req.body.challengeIdx
+
+        await challengeModel.InsertTogetherChallenge(usrIdx,challengeIdx)
+        res.json(utils.successTrue(statusCode.OK,responseMessage.INSERT_TOGETHER_CHALLENGE_SUCCESS))
+        }
+        catch(error)
+        {
+
+            return next(error)
+            
+        }
 
 
     },
     searchTogetherChallenge:async(req,res,next)=>{
 
+        try{
+            const usrIdx = req.decoded.idx
 
+            await challengeModel.searchTogetherChallenge()
+
+            res.json(utils.successTrue(statusCode.OK,responseMessage.SEARCH_TOGETHER_CHALLENGE_LIST_SUCCESS))
+        }
+        catch(error)
+        {
+
+            return next(error)
+            
+        }
 
 
     }
