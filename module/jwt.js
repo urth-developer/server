@@ -1,16 +1,16 @@
-var randtoken = require("rand-token");
+// var randtoken = require("rand-token");
 const jwt = require("jsonwebtoken");
-const secretOrPrivateKey = "jwtSecretKey!";
+const { secretKey } = require("../config/secretkey");
 const options = {
   algorithm: "HS256",
-  expiresIn: "1h",
+  expiresIn: "365d",
   issuer: "soptoon"
 };
-const refreshOptions = {
-  algorithm: "HS256",
-  expiresIn: "24h * 14",
-  issuer: "soptoon"
-};
+// const refreshOptions = {
+//   algorithm: "HS256",
+//   expiresIn: "24h * 14",
+//   issuer: "soptoon"
+// };
 
 module.exports = {
   sign: idx => {
@@ -19,8 +19,8 @@ module.exports = {
     };
 
     const result = {
-      token: jwt.sign(payload, secretOrPrivateKey, options)
-      // refreshToken: randtoken.uid(256)
+      token: jwt.sign(payload, secretKey, options)
+      //refreshToken: randtoken.uid(256)
     };
     //refreshToken을 만들 때에도 다른 키를 쓰는게 좋다.
 
@@ -29,7 +29,7 @@ module.exports = {
   verify: token => {
     let decoded;
     try {
-      decoded = jwt.verify(token, secretOrPrivateKey);
+      decoded = jwt.verify(token, secretKey, options);
     } catch (err) {
       if (err.message === "jwt expired") {
         console.log("expired token");
@@ -43,14 +43,14 @@ module.exports = {
       }
     }
     return decoded;
-  },
-  refresh: user => {
-    const payload = {
-      idx: user.idx,
-      grade: user.grade,
-      name: user.name
-    };
-
-    return jwt.sign(payload, secretOrPrivateKey, options);
   }
+  //   refresh: user => {
+  //     const payload = {
+  //       idx: user.idx,
+  //       grade: user.grade,
+  //       name: user.name
+  //     };
+
+  //     return jwt.sign(payload, secretKey, options);
+  //   }
 };
