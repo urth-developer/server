@@ -12,7 +12,7 @@ module.exports = router => {
     .get(auth.isLoggedin, challengeController.searchBookMarkChallengeList);
   router.route("/challenge/top10").get(challengeController.searchTop10ChallengeList);
 
-  /***즐겨찾기 챌린지  순서 바꾸기***/
+  /***즐겨찾기 챌린지 순서 바꾸기***/
   router
     .route("/challenge/favorite")
     .put(auth.isLoggedin, challengeController.updateFavoriteChallengeOrder);

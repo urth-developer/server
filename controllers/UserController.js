@@ -110,6 +110,39 @@ const UserController = {
           .json(successFalse(statusCode.INTERNAL_SERVER_ERROR, message.HASHING_FAIL));
       return res.status(200).json(successFalse(statusCode.DB_ERROR, message.DB_ERR));
     }
+  },
+
+  getUserData: async (req, res, next) => {
+    // get userIdx, id, nickname, level, experiencePoint, profileImg from user table
+    const user = await userModel.findByUserIdx(req.params.userIdx);
+
+    console.log(user);
+    const { userIdx, id, nickname, level, experiencePoint, profileImg } = user;
+
+    // get category count from authChallenge and challenge joined table
+    const userAuthCountsByCategory = await userModel.getUserAuthCountsByCategoryByUserIdx(userIdx);
+    console.log(userAuthCountsByCategory);
+
+    const userSuccessCount = userAuthCountsByCategory.reduce((acc, elem) => acc + elem);
+    console.log(userSuccessCount);
+
+    // create response data
+
+    const responseData = {
+      userIdx,
+      id,
+      nickname,
+      level,
+      experiencePoint,
+      profileImg,
+      userAuthCountsByCategory,
+      userSuccessCount
+    };
+
+    // send response
+    return res
+      .status(200)
+      .json(successTrue(statusCode.OK, message.GET_USER_DATA_SUCCESS, responseData));
   }
 };
 
