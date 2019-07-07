@@ -29,6 +29,28 @@ const challengeModel = {
     } catch (e) {
       throw new Error(500);
     }
+  },
+  findAllChallengesWithSameCategory: async categoryIdx => {
+    const selectAllChallengesWithSameCategoryQuery = "SELECT * FROM challenge WHERE category=?";
+
+    try {
+      const [challenges] = await db.query(selectAllChallengesWithSameCategoryQuery, [categoryIdx]);
+      return challenges;
+    } catch (e) {
+      throw new Error(500);
+    }
+  },
+  groupChallengesByCategory: async () => {
+    const groupChallengesByCategoryQuery =
+      "SELECT COUNT(*) AS categoryCount FROM authChallenge natural join challenge GROUP BY category";
+
+    try {
+      let [challengesCountByCategory] = await db.query(groupChallengesByCategoryQuery);
+      challengesCountByCategory = challengesCountByCategory.map(elem => elem.categoryCount);
+      return challengesCountByCategory;
+    } catch (e) {
+      throw new Error(500);
+    }
   }
 };
 module.exports = challengeModel;

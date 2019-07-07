@@ -52,6 +52,41 @@ const challengeController = {
   updateFavoriteChallengeOrder: async (req, res, next) => {},
   deleteTogetherChallenge: async (req, res, next) => {},
   insertTogetherChallenge: async (req, res, next) => {},
-  searchTogetherChallenge: async (req, res, next) => {}
+  searchTogetherChallenge: async (req, res, next) => {},
+
+  /***카테고리별 챌린지 리스트 조회 - 가인 ***/
+  searchCategoryChallenge: async (req, res, next) => {
+    // get all challenges that belong to a certain category
+    const categoryIdx = req.params.categoryIdx;
+
+    try {
+      const challenges = await challengeModel.findAllChallengesWithSameCategory(categoryIdx);
+      return res
+        .status(200)
+        .json(utils.successTrue(statusCode.OK, responseMessage.GET_USER_DATA_SUCCESS, challenges));
+    } catch (err) {
+      console.log(err);
+      return res.status(200).json(utils.successFalse(statusCode.DB_ERROR, responseMessage.DB_ERR));
+    }
+  },
+
+  summary: async (req, res, next) => {
+    // get all challenges that belong to a certain category
+    try {
+      const challengesCountByCategory = await challengeModel.groupChallengesByCategory();
+
+      return res
+        .status(200)
+        .json(
+          utils.successTrue(
+            statusCode.OK,
+            responseMessage.GET_SUMMARY_SUCCESS,
+            challengesCountByCategory
+          )
+        );
+    } catch (err) {
+      return next(err);
+    }
+  }
 };
 module.exports = challengeController;

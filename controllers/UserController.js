@@ -43,6 +43,9 @@ const UserController = {
           .status(200)
           .json(successFalse(statusCode.BAD_REQUEST, message.ID_OR_PW_WRO_VALUE));
 
+      /****
+       * next({status:500, message :message.ID_OR_PW_WRO_VALUE})
+       */
       // check if the password is authentic by comparing with the hashed password in the db
       const isValidPassword = await encryption.asyncVerifyConsistency(
         password,

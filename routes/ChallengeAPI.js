@@ -32,5 +32,11 @@ module.exports = router => {
     .route("/challenge/together")
     .get(auth.isLoggedin, challengeController.searchTogetherChallenge);
 
+  /***카테고리별 챌린지 리스트 조회***/
+  router.route("/challenge/category/:categoryIdx").get(challengeController.searchCategoryChallenge);
+
+  /***어스 성과 요약***/
+  router.route("/challenge/summary").get(challengeController.summary);
+
   return router;
 };
