@@ -1,5 +1,5 @@
 const db = require('../config/dbConfig')
-const InsertChallengeQuery = 'INSERT INTO suggestionChallenge (name,categoryIdx,explanation,image) VALUES (?,?,?,?)'
+const InsertChallengeQuery = 'INSERT INTO suggestionChallenge (name,category,explanation,image) VALUES (?,?,?,?)'
 const SelectTop10ChallengeQuery = 'SELECT * FROM challenge ORDER BY count DESC LIMIT 10'
 const SelectBookMarkChallengeQuery ='SELECT * FROM BookmarkChallenge  natural JOIN challenge WHERE userIdx = ? ORDER BY favoriteOrder DESC'
 

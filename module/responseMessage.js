@@ -16,7 +16,4 @@ module.exports = {
     CREATE_CHALLENGE_SUCCESS : "챌린지 개설 건의 성공했습니다.",
     SEARCH_TOP10_CHALLENGE_LIST_SUCCESS : "top10 챌린지 리스트 조회 성공했습니다.",
     SEARCH_BOOKMARK_CHALLENGE_LIST_SUCCESS : "즐켜찾기 챌린지 리스트 조히 성공했습니다."
-    
-   
-   
 };

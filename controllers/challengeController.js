@@ -17,8 +17,8 @@ const challengeController ={
 
 
 
-        await challengeModel.insertChallenge(title,categoryIdx,explanation,image,next)
-        utils.successTrue(statusCode.OK,responseMessage.CREATE_CHALLENGE_SUCCESS)
+        await challengeModel.insertChallenge(title,categoryIdx,explanation,image)
+        res.json(utils.successTrue(statusCode.OK,responseMessage.CREATE_CHALLENGE_SUCCESS))
         }
         catch(error)
         {    
@@ -54,6 +54,30 @@ const challengeController ={
                 return next(error)
             }
     
+
+    },
+    updateFavoriteChallengeOrder : async(req,res,next)=>{
+
+
+
+
+    },
+    deleteTogetherChallenge :async(req,res,next)=>{
+
+
+
+
+    },
+    insertTogetherChallenge :async(req,res,next)=>{
+
+
+
+
+    },
+    searchTogetherChallenge:async(req,res,next)=>{
+
+
+
 
     }
 }
