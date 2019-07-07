@@ -1,12 +1,10 @@
-var express = require("express");
-var router = express.Router();
-const signin = require("./signin");
-const signup = require("./signup");
-const challenge = require("./challenge/index");
+'use strict';
+const fs = require('fs');
+const list = fs.readdirSync(__dirname).filter(dir => !dir.match(/(^\.)|index/i));
+const router = require('express').Router();
 
-/* GET home page. */
-router.use("/signin", signin);
-router.use("/signup", signup);
-router.use("/challenge", challenge);
-
-module.exports = router;
+module.exports = (app) => {
+  for (let ctrl of list) {
+    app.use('/urth', require(`./${ctrl}`)(router));
+  }
+};
