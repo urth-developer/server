@@ -3,21 +3,21 @@ var express = require("express");
 var router = express.Router();
 
 // DB connection
-const pool = require("../config/dbConfig");
+const pool = require("../../config/dbConfig");
 
 // Response Messages & Status Codes
-const message = require("../module/responseMessage");
-const statusCode = require("../module/statusCode");
+const message = require("../../module/responseMessage");
+const statusCode = require("../../module/statusCode");
 
 // Utility Functions
-const { successTrue, successFalse } = require("../module/utils");
-const encryption = require("../module/encryption");
+const { successTrue, successFalse } = require("../../module/utils");
+const encryption = require("../../module/encryption");
 
 // Validation
-const validate = require("../module/validate");
+const validate = require("../../module/validate");
 
 // Token function
-const jwt = require("../module/jwt");
+const jwt = require("../../module/jwt");
 
 // ===============================================================
 
@@ -26,9 +26,7 @@ router.post("/", async (req, res) => {
   // Validation
   const { error } = validate.signin(req.body);
   if (error)
-    return res
-      .status(200)
-      .json(successFalse(statusCode.BAD_REQUEST, error.details[0].message));
+    return res.status(200).json(successFalse(statusCode.BAD_REQUEST, error.details[0].message));
 
   try {
     // check if id exists
@@ -38,9 +36,7 @@ router.post("/", async (req, res) => {
     const { userIdx, id, nickname, level, experiencePoint, profileImg } = user;
 
     if (!user)
-      return res
-        .status(200)
-        .json(successFalse(statusCode.BAD_REQUEST, message.ID_OR_PW_WRO_VALUE));
+      return res.status(200).json(successFalse(statusCode.BAD_REQUEST, message.ID_OR_PW_WRO_VALUE));
 
     console.log(req.body);
 
@@ -52,9 +48,7 @@ router.post("/", async (req, res) => {
     );
 
     if (!isValidPassword)
-      return res
-        .status(200)
-        .json(successFalse(statusCode.BAD_REQUEST, message.ID_OR_PW_WRO_VALUE));
+      return res.status(200).json(successFalse(statusCode.BAD_REQUEST, message.ID_OR_PW_WRO_VALUE));
 
     // Create JSON Web Token
     const result = jwt.sign(user.userIdx); // {token: <token string>}
@@ -69,14 +63,10 @@ router.post("/", async (req, res) => {
       experiencePoint,
       profileImg
     };
-    return res
-      .status(200)
-      .json(successTrue(statusCode.OK, message.SIGNIN_SUCCESS, responseData));
+    return res.status(200).json(successTrue(statusCode.OK, message.SIGNIN_SUCCESS, responseData));
   } catch (err) {
     console.log(err);
-    return res
-      .status(200)
-      .json(successFalse(statusCode.DB_ERROR, message.DB_ERR));
+    return res.status(200).json(successFalse(statusCode.DB_ERROR, message.DB_ERR));
   }
 });
 

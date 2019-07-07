@@ -1,19 +1,11 @@
-'use strict';
+"use strict";
 
-const userController = require('../controllers/UserController');
+const userController = require("../controllers/UserController");
 
+module.exports = router => {
+  router.route("/signin").post(userController.signIn);
 
-module.exports = (router) => {
+  router.route("/signup").post(userController.signUp);
 
-  router.route('/sign/in')
-    .post(userController.signIn);
-
-  router.route('/sign/up')
-    .post(userController.signUp);
-
-  router.route('/users')
-    .get()
-    .post();
-
-  return router
+  return router;
 };
