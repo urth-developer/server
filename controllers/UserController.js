@@ -146,6 +146,21 @@ const UserController = {
     return res
       .status(200)
       .json(successTrue(statusCode.OK, message.GET_USER_DATA_SUCCESS, responseData));
+  },
+
+  getTimeline: async (req, res, next) => {
+    // get userIdx from token
+    const userIdx = req.decoded.idx;
+    console.log(userIdx);
+
+    // authChallengeIdx, userIdx, challengeIdx, image, time
+
+    // get category count from authChallenge and challenge joined table
+    const timeline = await userModel.findAuthChallengeByUserIdx(userIdx);
+    console.log(timeline);
+
+    // send response
+    return res.status(200).json(successTrue(statusCode.OK, message.GET_TIMELINE_SUCCESS, timeline));
   }
 };
 

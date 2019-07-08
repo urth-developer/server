@@ -44,5 +44,15 @@ module.exports = router => {
   /***챌린지 상세보기***/
   router.route("/challenge/:challengeIdx").get(auth.isLoggedin, challengeController.detail);
 
+  /***챌린지 한줄 응원 등록***/
+  router
+    .route("/challenge/comment/:challengeIdx")
+    .post(auth.isLoggedin, challengeController.postComment);
+
+  /***챌린지 한줄 응원 리스트 조회***/
+  router
+    .route("/challenge/comment/:challengeIdx")
+    .get(auth.isLoggedin, challengeController.getComment);
+
   return router;
 };

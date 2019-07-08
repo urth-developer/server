@@ -32,5 +32,8 @@ module.exports = {
   SEARCH_BOOKMARK_CHALLENGE_LIST_SUCCESS: "즐켜찾기 챌린지 리스트 조히 성공했습니다.",
   GET_SUMMARY_SUCCESS: "어스 정보 조회 성공",
   GET_KEYWORDS_SUCCESS: "검색 키워드 리스트 조회 성공",
-  GET_CHALLENGE_DETAIL_SUCCESS: "챌린지 상세보기 성공"
+  GET_CHALLENGE_DETAIL_SUCCESS: "챌린지 상세보기 성공",
+  CREATE_COMMENT_SUCCESS: "챌린지 한줄 응원 등록 성공",
+  GET_COMMENT_SUCCESS: "챌린지 한줄 응원 리스트 조회 성공",
+  GET_TIMELINE_SUCCESS: "유저의 타임라인 조회 성공"
 };

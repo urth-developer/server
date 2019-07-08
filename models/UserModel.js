@@ -35,6 +35,12 @@ const userModel = {
     ]);
     userAuthCountsByCategory = userAuthCountsByCategory.map(elem => elem.categoryCount);
     return userAuthCountsByCategory;
+  },
+
+  findAuthChallengeByUserIdx: async userIdx => {
+    const selectAuthChallengeQuery = `SELECT * FROM authChallenge WHERE userIdx=? ORDER BY time DESC`;
+    const [timeline] = await pool.query(selectAuthChallengeQuery, [userIdx]);
+    return timeline;
   }
 };
 
