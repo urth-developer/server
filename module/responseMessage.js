@@ -1,5 +1,5 @@
 module.exports = {
-<<<<<<< HEAD
+
 DUPLICATE_ID: "이미 존재하는 ID 입니다.",
 DUPLICATE_NICKNAME: "이미 존재하는 닉네임 입니다.",
 HASHING_FAIL: "패시워드를 해싱하는 과정에서 오류가 났습니다.",
@@ -60,6 +60,9 @@ UPDATE_BOOKMARK_CHALLENGE_SUCCESS : "즐겨찾기 챌린지 순서 변경 성공
   SEARCH_BOOKMARK_CHALLENGE_LIST_SUCCESS: "즐켜찾기 챌린지 리스트 조히 성공했습니다.",
   GET_SUMMARY_SUCCESS: "어스 정보 조회 성공",
   GET_KEYWORDS_SUCCESS: "검색 키워드 리스트 조회 성공",
-  GET_CHALLENGE_DETAIL_SUCCESS: "챌린지 상세보기 성공"
+  GET_CHALLENGE_DETAIL_SUCCESS: "챌린지 상세보기 성공",
+  CREATE_COMMENT_SUCCESS: "챌린지 한줄 응원 등록 성공",
+  GET_COMMENT_SUCCESS: "챌린지 한줄 응원 리스트 조회 성공",
+  GET_TIMELINE_SUCCESS: "유저의 타임라인 조회 성공"
 
 };

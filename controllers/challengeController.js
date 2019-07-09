@@ -117,6 +117,43 @@ const challengeController = {
             
         }
     },
+
+  postComment: async (req, res, next) => {
+    try {
+      // get userIdx
+      const userIdx = req.decoded.idx;
+
+      // get challengeIdx
+      const challengeIdx = req.params.challengeIdx;
+      const comment = req.body.comment;
+
+      // write to db
+      await challengeModel.createComment(userIdx, challengeIdx, comment);
+
+      return res
+        .status(200)
+        .json(utils.successTrue(statusCode.OK, responseMessage.CREATE_COMMENT_SUCCESS));
+    } catch (err) {
+      return next(err);
+    }
+  },
+
+  getComment: async (req, res, next) => {
+    try {
+      // get challengeIdx
+      const challengeIdx = req.params.challengeIdx;
+
+      // write to db
+      const comments = await challengeModel.getCommentByChallengeIdx(challengeIdx);
+
+      return res
+        .status(200)
+        .json(utils.successTrue(statusCode.OK, responseMessage.GET_COMMENT_SUCCESS, comments));
+    } catch (err) {
+      return next(err);
+    }
+  },
+
   detail: async (req, res, next) => {
     //challenge table: challengeIdx, name, explanation, image, count, category
     //user table: creator,

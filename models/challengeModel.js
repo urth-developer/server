@@ -157,6 +157,28 @@ const challengeModel = {
     } catch (e) {
       throw new Error(500);
     }
+  },
+
+  createComment: async (userIdx, challengeIdx, comment) => {
+    const insertCommentQuery =
+      "INSERT INTO comment (userIdx,challengeIdx,comment) VALUES (?, ? ,?)";
+    try {
+      await db.query(insertCommentQuery, [userIdx, challengeIdx, comment]);
+    } catch (e) {
+      console.log(e);
+      throw new Error(500);
+    }
+  },
+
+  getCommentByChallengeIdx: async challengeIdx => {
+    const selectCommentQuery = "SELECT * FROM comment WHERE challengeIdx=?";
+    try {
+      const [comments] = await db.query(selectCommentQuery, [challengeIdx]);
+      return comments;
+    } catch (e) {
+      console.log(e);
+      throw new Error(500);
+    }
   }
 };
 module.exports = challengeModel;
