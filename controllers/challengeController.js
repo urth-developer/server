@@ -21,6 +21,22 @@ const challengeController = {
         }
 
     },
+    searchTop10ChallengeList :async (req,res,next)=>{
+
+
+        try{
+            
+            const result = await challengeModel.SearchTop10ChallengeList()
+    
+    
+            res.json(utils.successTrue(statusCode.OK,responseMessage.SEARCH_TOP10_CHALLENGE_LIST_SUCCESS,result))
+        }
+        catch(error)
+            {    
+                return next(error)
+            }
+    
+        },
     searchBookMarkChallengeList : async(req,res,next)=>{
         try{
         const usrIdx = req.decoded.idx 
@@ -43,6 +59,9 @@ const challengeController = {
      /*****
          * express-validation 필요 ,Parameter에 대한 오류 처리
          */
+
+
+
         const userIdx = req.decoded.idx 
         const favoriteChallengeList = req.body.favoriteChallengeList
         await challengeModel.UpdateFavoriteChallengeOrder(userIdx,favoriteChallengeList)
@@ -51,7 +70,7 @@ const challengeController = {
         catch(error)
         {
 
-            return next(error)
+            return next({"status":error})
 
         }
 
@@ -60,7 +79,6 @@ const challengeController = {
     deleteTogetherChallenge :async(req,res,next)=>{
 
         try{
-
             /*****
              * express-validation 필요 ,Parameter에 대한 오류 처리
              */

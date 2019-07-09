@@ -9,13 +9,6 @@ const SelectTogetherChallengeQuery = "SELECT  ongoingChallenge.challengeIdx , na
 const DeleteTogetherChallengeQuery = "DELETE FROM ongoingChallenge WHERE userIdx = ? and challengeIdx =?"
 const UPDATEBookMarkChallengeQuery = "UPDATE  BookmarkChallenge SET favoriteOrder = ? WHERE userIdx = ?  AND challengeIdx =?"
 /**********/
-const InsertChallengeQuery =
-  "INSERT INTO suggestionChallenge (name,category,explanation,image) VALUES (?,?,?,?)";
-const SelectTop10ChallengeQuery = "SELECT * FROM challenge ORDER BY count DESC LIMIT 10";
-const SelectBookMarkChallengeQuery =
-  "SELECT * FROM BookmarkChallenge  natural JOIN challenge WHERE userIdx = ? ORDER BY favoriteOrder DESC";
-
-
 
 
 
@@ -25,31 +18,31 @@ const challengeModel = {
         try {
              await db.query(InsertChallengeQuery, [name,categoryIdx,explanation,image]);
             } catch (e) {
-              throw new Error(500)
+              throw new Error(600)
             }
     
     
     },
-    SearchBookMarkChallengeList : (userIdx)=>{
+    SearchBookMarkChallengeList : async(userIdx)=>{
 
         try{
-            const result = db.query(SelectBookMarkChallengeQuery,[userIdx])
-            return result
+            const result = await db.query(SelectBookMarkChallengeQuery,[userIdx])
+            return result[0]
         }catch(e)
         {
-            throw new Error(500)
+            throw new Error(600)
         }
 
     },
     SearchTop10ChallengeList : async()=>{
         try{
-
          const result =  await db.query(SelectTop10ChallengeQuery)
-         return result;
+         console.log(result[0])
+         return result[0];
 
         }catch (e)
         {
-            throw new Error(500)
+            throw new Error(600)
         }
 
     
@@ -66,7 +59,7 @@ const challengeModel = {
 
         }catch(e)
         {
-            throw new Error(500)
+            throw new Error(600)
         }
 
 
@@ -84,7 +77,7 @@ const challengeModel = {
    
            }catch (e)
            {
-               throw new Error(500)
+               throw new Error(600)
            }
 
     },
@@ -96,7 +89,7 @@ const challengeModel = {
    
            }catch (e)
            {
-               throw new Error(500)
+               throw new Error(600)
            }
 
     },
@@ -106,11 +99,12 @@ const challengeModel = {
         try{
 
             const result =  await db.query(SelectTogetherChallengeQuery,[userIdx])
-            return result;
+            console.log(result[0])
+            return result[0];
    
            }catch (e)
            {
-               throw new Error(500)
+               throw new Error(600)
            }
 
     },
@@ -122,7 +116,7 @@ const challengeModel = {
       const [challenges] = await db.query(selectAllChallengesWithSameCategoryQuery, [categoryIdx]);
       return challenges;
     } catch (e) {
-      throw new Error(500);
+      throw new Error(600);
     }
   },
   groupChallengesByCategory: async () => {
@@ -134,7 +128,7 @@ const challengeModel = {
       challengesCountByCategory = challengesCountByCategory.map(elem => elem.categoryCount);
       return challengesCountByCategory;
     } catch (e) {
-      throw new Error(500);
+      throw new Error(600);
     }
   },
   findKeywords: async () => {
@@ -144,7 +138,7 @@ const challengeModel = {
       let [keywords] = await db.query(selectAllKeywordsQuery);
       return keywords;
     } catch (e) {
-      throw new Error(500);
+      throw new Error(600);
     }
   },
 
@@ -155,7 +149,7 @@ const challengeModel = {
       let [challengeDetail] = await db.query(selectChallengeQuery, [challengeIdx]);
       return challengeDetail;
     } catch (e) {
-      throw new Error(500);
+      throw new Error(600);
     }
   }
 };
