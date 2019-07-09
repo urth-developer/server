@@ -3,7 +3,7 @@ const db = require('../config/dbConfig')
 /***************/
 const insertAuthChallengeQuery ="INSERT INTO authChallenge (userIdx,challengeIdx,image) VALUES (?,?,?)"
 const updateReportImageQuery = "UPDATE authChallenge SET reportCount =  reportCount +1 WHERE authChallengeIdx =?"
-const selectReportImageListQuery  = "SELECT * FROM authChallenge where challengeIdx = ? and isWrong = 0 order by authChallengeIdx DESC limit 4;"
+const selectReportImageListQuery  = "SELECT authChallengeIdx , uerIdx , image FROM authChallenge where challengeIdx = ? and isWrong = 0 order by authChallengeIdx DESC limit 4;"
 /***************/
 const challengeModel = {
 
