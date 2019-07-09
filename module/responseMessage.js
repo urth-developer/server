@@ -44,6 +44,7 @@ GET_USER_DATA_SUCCESS: "유저의 정보 조회 성공",
   REPORT_WRONG_IMG_SUCCESS : "해당 이미지 신고 하기가 성공했습니다.",
   SEARCH_REPORT_IMG_SUCCESS : "신고 가능한 이미지 리스트 조회 성곻했습니다.",
 
+  
   /***** 어스 서비스 관련 *******/
   SEARCH_URTH_SUGGESTION_CHALLENGE_SUCCESS : "챌린지 건의 현황 정보 리스트 조회 성공했습니다.",
   REQUEST_FOR_URTH_SUCCESS :"어스에 건의 하기 성공했습니다."
