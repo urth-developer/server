@@ -10,7 +10,7 @@ const userModel = {
       return user[0];
     } catch (err) {
       console.log(err);
-      throw new Error(500);
+      throw new Error(600);
     }
   },
 
@@ -21,7 +21,7 @@ const userModel = {
       return count[0].count;
     } catch (err) {
       console.log(err);
-      throw new Error(500);
+      throw new Error(600);
     }
   },
 
@@ -32,7 +32,7 @@ const userModel = {
       return user[0];
     } catch (err) {
       console.log(err);
-      throw new Error(500);
+      throw new Error(600);
     }
   },
 
@@ -43,7 +43,7 @@ const userModel = {
       return user[0];
     } catch (err) {
       console.log(err);
-      throw new Error(500);
+      throw new Error(600);
     }
   },
 
@@ -54,7 +54,7 @@ const userModel = {
       await pool.query(insertUserQuery, [id, nickname, cryptoPw, salt, profileImg]);
     } catch (err) {
       console.log(err);
-      throw new Error(500);
+      throw new Error(600);
     }
   },
 
@@ -77,7 +77,7 @@ const userModel = {
       return userAuthCountsByCategory;
     } catch (err) {
       console.log(err);
-      throw new Error(500);
+      throw new Error(600);
     }
   },
 
@@ -88,14 +88,14 @@ const userModel = {
       return timeline;
     } catch (err) {
       console.log(err);
-      throw new Error(500);
+      throw new Error(600);
     }
   },
 
   checkFriendship: async (userIdx, friendIdx) => {
     try {
       const checkFriendQuery =
-      // FIXME SELECT * -> SELECT id, ...
+        // FIXME SELECT * -> SELECT id, ...
         "SELECT * FROM friendship WHERE (user1Idx=? AND user2Idx=?) OR (user2Idx=? AND user1Idx=?)";
       const [friendship] = await pool.query(checkFriendQuery, [
         userIdx,
@@ -106,7 +106,7 @@ const userModel = {
       return friendship[0];
     } catch (err) {
       console.log(err);
-      throw new Error(500);
+      throw new Error(600);
     }
   },
 
@@ -116,7 +116,7 @@ const userModel = {
       await pool.query(insertFriendQuery, [userIdx, friendIdx]);
     } catch (err) {
       console.log(err);
-      throw new Error(500);
+      throw new Error(600);
     }
   },
 
@@ -136,7 +136,7 @@ const userModel = {
       // return friendList.filter(idx => idx !== userIdx);
     } catch (err) {
       console.log(err);
-      throw new Error(500);
+      throw new Error(600);
     }
   }
 };

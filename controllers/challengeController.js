@@ -15,127 +15,95 @@ const challengeController = {
 
       await challengeModel.insertChallenge(title, categoryIdx, explanation, image);
       res.json(utils.successTrue(statusCode.OK, responseMessage.CREATE_CHALLENGE_SUCCESS));
+    } catch (error) {
+      return next(error);
     }
-    catch(error)
-        {    
-            return next(error)
-        }
+  },
+  searchTop10ChallengeList: async (req, res, next) => {
+    try {
+      const result = await challengeModel.SearchTop10ChallengeList();
 
-    },
-    searchTop10ChallengeList :async (req,res,next)=>{
+      res.json(
+        utils.successTrue(
+          statusCode.OK,
+          responseMessage.SEARCH_TOP10_CHALLENGE_LIST_SUCCESS,
+          result
+        )
+      );
+    } catch (error) {
+      return next(error);
+    }
+  },
+  searchBookMarkChallengeList: async (req, res, next) => {
+    try {
+      const usrIdx = req.decoded.idx;
+      const result = await challengeModel.searchBookMarkChallengeList(usrIdx);
+      res.json(
+        utils.successTrue(
+          statusCode.OK,
+          responseMessage.SEARCH_BOOKMARK_CHALLENGE_LIST_SUCCESS,
+          result
+        )
+      );
+    } catch (error) {
+      return next(error);
+    }
+  },
+  updateFavoriteChallengeOrder: async (req, res, next) => {
+    try {
+      /*****
+       * express-validation 필요 ,Parameter에 대한 오류 처리
+       */
 
+      const userIdx = req.decoded.idx;
+      const favoriteChallengeList = req.body.favoriteChallengeList;
+      await challengeModel.UpdateFavoriteChallengeOrder(userIdx, favoriteChallengeList);
+      res.json(utils.successTrue(statusCode.OK, responseMessage.UPDATE_BOOKMARK_CHALLENGE_SUCCESS));
+    } catch (error) {
+      return next({ status: error });
+    }
+  },
+  deleteTogetherChallenge: async (req, res, next) => {
+    try {
+      /*****
+       * express-validation 필요 ,Parameter에 대한 오류 처리
+       */
+      const usrIdx = req.decoded.idx;
+      const challengeIdx = req.body.challengeIdx;
 
-        try{
-            
-            const result = await challengeModel.SearchTop10ChallengeList()
-    
-    
-            res.json(utils.successTrue(statusCode.OK,responseMessage.SEARCH_TOP10_CHALLENGE_LIST_SUCCESS,result))
-        }
-        catch(error)
-            {    
-                return next(error)
-            }
-    
-        },
-    searchBookMarkChallengeList : async(req,res,next)=>{
-        try{
-        const usrIdx = req.decoded.idx 
-        const result = await challengeModel.searchBookMarkChallengeList(usrIdx)
-        res.json(utils.successTrue(statusCode.OK,responseMessage.SEARCH_BOOKMARK_CHALLENGE_LIST_SUCCESS,result))
+      await challengeModel.DeleteTogetherChallenge(usrIdx, challengeIdx);
+      res.json(utils.successTrue(statusCode.OK, responseMessage.DeleteTogetherChallenge));
+    } catch (error) {
+      return next(error);
+    }
+  },
+  insertTogetherChallenge: async (req, res, next) => {
+    try {
+      /*****
+       * express-validation 필요 ,Parameter에 대한 오류 처리
+       */
+      const usrIdx = req.decoded.idx;
+      const challengeIdx = req.body.challengeIdx;
 
-        
-        }
-        catch(error)
-            {    
-                return next(error)
-            }
-    
+      await challengeModel.InsertTogetherChallenge(usrIdx, challengeIdx);
+      res.json(utils.successTrue(statusCode.OK, responseMessage.INSERT_TOGETHER_CHALLENGE_SUCCESS));
+    } catch (error) {
+      return next(error);
+    }
+  },
+  searchTogetherChallenge: async (req, res, next) => {
+    try {
+      const usrIdx = req.decoded.idx;
 
-    },
-    updateFavoriteChallengeOrder : async(req,res,next)=>{
+      await challengeModel.searchTogetherChallenge();
 
-
-        try{
-     /*****
-         * express-validation 필요 ,Parameter에 대한 오류 처리
-         */
-
-
-
-        const userIdx = req.decoded.idx 
-        const favoriteChallengeList = req.body.favoriteChallengeList
-        await challengeModel.UpdateFavoriteChallengeOrder(userIdx,favoriteChallengeList)
-        res.json(utils.successTrue(statusCode.OK,responseMessage.UPDATE_BOOKMARK_CHALLENGE_SUCCESS))
-        }
-        catch(error)
-        {
-
-            return next({"status":error})
-
-        }
-
-
-    },
-    deleteTogetherChallenge :async(req,res,next)=>{
-
-        try{
-            /*****
-             * express-validation 필요 ,Parameter에 대한 오류 처리
-             */
-            const usrIdx = req.decoded.idx
-            const challengeIdx = req.body.challengeIdx
-    
-            await challengeModel.DeleteTogetherChallenge(usrIdx,challengeIdx)
-            res.json(utils.successTrue(statusCode.OK,responseMessage.DeleteTogetherChallenge))
-            }
-            catch(error)
-            {
-    
-                return next(error)
-                
-            }
-
-
-    },
-    insertTogetherChallenge :async(req,res,next)=>{
-
-        try{
-
-        /*****
-         * express-validation 필요 ,Parameter에 대한 오류 처리
-         */
-        const usrIdx = req.decoded.idx
-        const challengeIdx = req.body.challengeIdx
-
-        await challengeModel.InsertTogetherChallenge(usrIdx,challengeIdx)
-        res.json(utils.successTrue(statusCode.OK,responseMessage.INSERT_TOGETHER_CHALLENGE_SUCCESS))
-        }
-        catch(error)
-        {
-
-            return next(error)
-            
-        }
-
-
-    },
-    searchTogetherChallenge:async(req,res,next)=>{
-
-        try{
-            const usrIdx = req.decoded.idx
-
-            await challengeModel.searchTogetherChallenge()
-
-            res.json(utils.successTrue(statusCode.OK,responseMessage.SEARCH_TOGETHER_CHALLENGE_LIST_SUCCESS))
-        }
-        catch(error)
-        {
-
-            return next(error)
-            
-        }
-    },
+      res.json(
+        utils.successTrue(statusCode.OK, responseMessage.SEARCH_TOGETHER_CHALLENGE_LIST_SUCCESS)
+      );
+    } catch (error) {
+      return next(error);
+    }
+  },
 
   postComment: async (req, res, next) => {
     try {
@@ -239,7 +207,6 @@ const challengeController = {
     try {
       const searchWord = req.body.searchWord;
       const challenges = await challengeModel.searchByWord(searchWord);
-      throw new Error(500);
       return res
         .status(200)
         .json(
@@ -274,7 +241,6 @@ const challengeController = {
         .json(utils.successTrue(statusCode.OK, responseMessage.GET_SUMMARY_SUCCESS, returnData));
     } catch (err) {
       return next(err);
-
     }
   }
 };

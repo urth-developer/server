@@ -111,7 +111,7 @@ const challengeModel = {
       return authCountsByCategory;
     } catch (e) {
       console.log(e);
-      throw new Error(500);
+      throw new Error(600);
     }
   },
   findKeywords: async () => {
@@ -133,7 +133,7 @@ const challengeModel = {
       return challenges;
     } catch (e) {
       console.log(e);
-      throw new Error(500);
+      throw new Error(600);
     }
   },
 
@@ -155,7 +155,7 @@ const challengeModel = {
       await db.query(insertCommentQuery, [userIdx, challengeIdx, comment]);
     } catch (e) {
       console.log(e);
-      throw new Error(500);
+      throw new Error(600);
     }
   },
 
@@ -166,7 +166,7 @@ const challengeModel = {
       return comments;
     } catch (e) {
       console.log(e);
-      throw new Error(500);
+      throw new Error(600);
     }
   }
 };
