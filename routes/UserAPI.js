@@ -1,5 +1,5 @@
 "use strict";
-
+const upload = require("../config/multer");
 const userController = require("../controllers/UserController");
 const auth = require("../module/authUtils").isLoggedin;
 
