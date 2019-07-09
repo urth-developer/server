@@ -41,6 +41,9 @@ module.exports = router => {
   /***검색 키워드 리스트 조회***/
   router.route("/challenge/keyword").get(challengeController.keyword);
 
+  /***검색한 챌린지 리스트 조회***/
+  router.route("/challenge/search").get(challengeController.search);
+
   /***챌린지 상세보기***/
   router.route("/challenge/:challengeIdx").get(auth.isLoggedin, challengeController.detail);
 

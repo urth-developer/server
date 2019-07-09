@@ -41,14 +41,25 @@ const challengeModel = {
     }
   },
   groupChallengesByCategory: async () => {
-    const groupChallengesByCategoryQuery =
-      "SELECT COUNT(*) AS categoryCount FROM authChallenge natural join challenge GROUP BY category";
+    const getAuthCountsByCategoryQuery =
+      "SELECT category, COUNT(*) AS categoryCount FROM authChallenge INNER JOIN challenge ON authChallenge.challengeIdx=challenge.challengeIdx GROUP BY category";
 
     try {
-      let [challengesCountByCategory] = await db.query(groupChallengesByCategoryQuery);
-      challengesCountByCategory = challengesCountByCategory.map(elem => elem.categoryCount);
-      return challengesCountByCategory;
+      let [result] = await db.query(getAuthCountsByCategoryQuery);
+      const authCountsByCategory = {};
+
+      const categories = result.map(elem => parseInt(elem.category));
+      for (let i = 1; i <= 5; i++) {
+        if (categories.indexOf(i) === -1) authCountsByCategory["category" + i] = 0;
+      }
+
+      result.forEach(
+        elem => (authCountsByCategory["category" + elem.category] = elem.categoryCount)
+      );
+
+      return authCountsByCategory;
     } catch (e) {
+      console.log(e);
       throw new Error(500);
     }
   },
@@ -58,8 +69,20 @@ const challengeModel = {
 
     try {
       let [keywords] = await db.query(selectAllKeywordsQuery);
-      return keywords;
+    return keywords;
     } catch (e) {
+      throw new Error(500);
+    }
+  },
+
+  searchByWord: async searchWord => {
+    const selectAllKeywordsQuery = "SELECT * FROM challenge WHERE name LIKE ?";
+
+    try {
+      let [challenges] = await db.query(selectAllKeywordsQuery, ["%" + searchWord + "%"]);
+      return challenges;
+    } catch (e) {
+      console.log(e);
       throw new Error(500);
     }
   },

@@ -1,4 +1,5 @@
 const challengeModel = require("../models/challengeModel");
+const userModel = require("../models/userModel");
 const responseMessage = require("../module/responseMessage");
 const statusCode = require("../module/statusCode");
 const utils = require("../module/utils");
@@ -152,20 +153,43 @@ const challengeController = {
     }
   },
 
-  summary: async (req, res, next) => {
-    // get all challenges that belong to a certain category
+  search: async (req, res, next) => {
     try {
-      const challengesCountByCategory = await challengeModel.groupChallengesByCategory();
-
+      const searchWord = req.body.searchWord;
+      const challenges = await challengeModel.searchByWord(searchWord);
+      throw new Error(500);
       return res
         .status(200)
         .json(
           utils.successTrue(
             statusCode.OK,
-            responseMessage.GET_SUMMARY_SUCCESS,
-            challengesCountByCategory
+            responseMessage.GET_CHALLENGE_SEARCH_RESULT_SUCCESS,
+            challenges
           )
         );
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  },
+
+  summary: async (req, res, next) => {
+    // get all challenges that belong to a certain category
+    try {
+      const authCountsByCategory = await challengeModel.groupChallengesByCategory();
+
+      let totalSuccessCount = 0;
+      for (let property in authCountsByCategory) {
+        totalSuccessCount += authCountsByCategory[property];
+      }
+
+      const totalUserCount = await userModel.getUserCount();
+
+      const returnData = { authCountsByCategory, totalSuccessCount, totalUserCount };
+
+      return res
+        .status(200)
+        .json(utils.successTrue(statusCode.OK, responseMessage.GET_SUMMARY_SUCCESS, returnData));
     } catch (err) {
       return next(err);
     }

@@ -31,9 +31,21 @@ module.exports = {
   SEARCH_TOP10_CHALLENGE_LIST_SUCCESS: "top10 챌린지 리스트 조회 성공했습니다.",
   SEARCH_BOOKMARK_CHALLENGE_LIST_SUCCESS: "즐켜찾기 챌린지 리스트 조히 성공했습니다.",
   GET_SUMMARY_SUCCESS: "어스 정보 조회 성공",
+
   GET_KEYWORDS_SUCCESS: "검색 키워드 리스트 조회 성공",
+  GET_CHALLENGE_SEARCH_RESULT_SUCCESS: "검색한 챌린지 리스트 조회 성공",
   GET_CHALLENGE_DETAIL_SUCCESS: "챌린지 상세보기 성공",
   CREATE_COMMENT_SUCCESS: "챌린지 한줄 응원 등록 성공",
   GET_COMMENT_SUCCESS: "챌린지 한줄 응원 리스트 조회 성공",
-  GET_TIMELINE_SUCCESS: "유저의 타임라인 조회 성공"
+
+  GET_TIMELINE_SUCCESS: "유저의 타임라인 조회 성공",
+  GET_FRIEND_TIMELINE_SUCCESS: "친구의 타임라인 조회 성공",
+
+  NO_FRIEND_SEARCH_RESULT: "해당 닉네임의 유저가 존재하지 않습니다.",
+  FRIEND_SEARCH_SUCCESS: "친구 검색 성공",
+  FRIEND_ADD_SUCCESS: "친구 추가 성공",
+  ALREADY_FRIENDS: "이미 친구입니다.",
+  GET_FRIEND_LIST_SUCCESS: "친구 목록 조회 성공",
+  NO_FRIENDS: "친구가 없습니다.",
+  GET_FRIEND_DATA_SUCCESS: "친구 상세 정보 조회 성공."
 };
