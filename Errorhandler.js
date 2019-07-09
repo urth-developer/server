@@ -3,7 +3,9 @@ const statusCode = require("./module/statusCode");
 const util = require("./module/utils");
 module.exports = app => {
   app.use((err, req, res, next) => {
+
     if (err.status == 600) {
+        console.log(responseMessage.DB_ERR)
       res.json(util.successFalse(statusCode.DB_ERROR, responseMessage.DB_ERR));
     } else if (err.status == 500) {
       res.json(
