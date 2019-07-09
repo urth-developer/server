@@ -1,5 +1,5 @@
 const challengeModel = require("../models/challengeModel");
-const userModel = require("../models/userModel");
+const userModel = require("../models/UserModel");
 const responseMessage = require("../module/responseMessage");
 const statusCode = require("../module/statusCode");
 const utils = require("../module/utils");

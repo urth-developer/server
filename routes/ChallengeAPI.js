@@ -1,6 +1,6 @@
 "use strict";
 
-const challengeController = require("../controllers/ChallengeController");
+const challengeController = require("../controllers/challengeController");
 const upload = require("../config/multer");
 const auth = require("../module/authUtils");
 module.exports = router => {
