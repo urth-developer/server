@@ -12,8 +12,20 @@ module.exports = {
         .required(),
       password: Joi.string()
         .max(200)
+        .required()
+    };
+    return Joi.validate(data, schema);
+  },
+  profile: data => {
+    const schema = {
+      id: Joi.string()
+        .max(45)
+        .required()
+        .email(),
+      nickname: Joi.string()
+        .max(45)
         .required(),
-      image: Joi.string().max(200)
+      profileImg: Joi.string().max(200)
     };
     return Joi.validate(data, schema);
   },

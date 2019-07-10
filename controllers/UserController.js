@@ -77,7 +77,7 @@ const UserController = {
   signUp: async (req, res, next) => {
     try {
       // read id, nickname, password, profileImg from body
-      const { id, nickname, password, profileImg } = req.body;
+      const { id, nickname, password } = req.body;
 
       // Validation
       const { error } = validate.signup(req.body);
@@ -102,9 +102,56 @@ const UserController = {
       const { cryptoPw, salt } = await encryption.asyncCipher(password);
 
       // save it to DB and send success message
-      await userModel.create(id, nickname, cryptoPw, salt, profileImg);
+      await userModel.create(id, nickname, cryptoPw, salt);
 
       return res.status(200).json(successTrue(statusCode.OK, responseMessage.SIGNUP_SUCCESS));
+    } catch (error) {
+      return next(error);
+    }
+  },
+
+  profile: async (req, res, next) => {
+    try {
+      // read id, nickname, from body
+      const { id, nickname } = req.body;
+      let profileImg;
+      if (req.file) profileImg = req.file.location;
+
+      const userIdx = req.decoded.idx;
+      console.log(userIdx);
+
+      // Validation
+      const { error } = validate.profile(req.body);
+      if (error)
+        return res.status(200).json(successFalse(statusCode.BAD_REQUEST, error.details[0].message));
+
+      // get user data
+      const previousProfile = await userModel.findByUserIdx(userIdx);
+
+      if (previousProfile.id !== id) {
+        // check if there is same id
+        const userWithSameId = await userModel.findById(id);
+        if (userWithSameId)
+          return res
+            .status(200)
+            .json(successFalse(statusCode.BAD_REQUEST, responseMessage.DUPLICATE_ID));
+      }
+
+      if (previousProfile.nickname !== nickname) {
+        // check if there is same nickname
+        const userWithSameNickname = await userModel.findByNickname(nickname);
+        if (userWithSameNickname)
+          return res
+            .status(200)
+            .json(successFalse(statusCode.BAD_REQUEST, responseMessage.DUPLICATE_NICKNAME));
+      }
+
+      // save it to DB and send success message
+      await userModel.updateByUserIdx(userIdx, id, nickname, profileImg);
+
+      return res
+        .status(200)
+        .json(successTrue(statusCode.OK, responseMessage.PROFILE_UPDATE_SUCCESS));
     } catch (error) {
       return next(error);
     }
