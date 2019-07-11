@@ -7,7 +7,7 @@ module.exports =router =>{
     router.route('/settings/suggestion').get(auth.isLoggedin,urthInfoController.searchSuggestionChallengeList)
 
     /*****어스에 건의 하기 */
-    router.route('/auth/report').post(auth.isLoggedin,urthInfoController.suggestForUrth)
+    router.route('/settings/report').post(auth.isLoggedin,urthInfoController.suggestForUrth)
 
     return router;
 }

@@ -139,11 +139,14 @@ const AuthController = {
     reportChallengeImage : async (req, res, next) => {
 
         try{
-            const {authChallengeIdx} = req.body
-             /*****
+
+               /*****
               * express-validation 필요 ,Parameter에 대한 오류 처리
               */
-
+            console.log(req.body)
+            const {authChallengeIdx} = req.body
+            console.log(authChallengeIdx)
+          
             await authModel.updateReportImage(authChallengeIdx)
             res.json(utils.successTrue(statusCode.OK,responseMessage.REPORT_WRONG_IMG_SUCCESS))
     

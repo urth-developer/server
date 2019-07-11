@@ -8,9 +8,10 @@ const urthInfoController = {
     searchSuggestionChallengeList : async (req, res, next) =>{
 
         try{
-            const usrIdx = req.decoded.idx 
-            const result = await urthInfoModel.SelectSuggestionChallengeList(usrIdx)
-            res.json(utils.successTrue(statusCode.OK,responseMessage.SEARCH_URTH_SUGGESTION_CHALLENGE_SUCCESS ,result[0]))
+            const userIdx = req.decoded.idx 
+            console.log(userIdx)
+            const result = await urthInfoModel.SelectSuggestionChallengeList(userIdx)
+            res.json(utils.successTrue(statusCode.OK,responseMessage.SEARCH_URTH_SUGGESTION_CHALLENGE_SUCCESS ,result))
         }
         catch(error)
         {

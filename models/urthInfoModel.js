@@ -2,7 +2,7 @@ const db = require('../config/dbConfig')
 
 /*********/
 const InsertRequestQuery = "INSERT INTO userRequest (userIdx , contents) VALUES (?,?)"
-const SelectSuggestionChallengeListQuery ="SELECT suggesetionChallengeIdx,createTime, name , progressStatus,image FROM suggestionChallenge WHERE userIdx = ?"
+const SelectSuggestionChallengeListQuery ="SELECT suggestionChallengeIdx,createTime, name , progressStatus,image FROM suggestionChallenge WHERE creator = ?"
 /*********/
 
 const urthInfoModel = {
@@ -20,8 +20,10 @@ const urthInfoModel = {
     SelectSuggestionChallengeList : async(userIdx)=>{
 
         try {
-            await db.query(SelectSuggestionChallengeListQuery, [userIdx]);
+            const result =await db.query(SelectSuggestionChallengeListQuery, [userIdx]);
+            return result[0]
            } catch (e) {
+             console.log(e)
              throw new Error(600)
            }
 
