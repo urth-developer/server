@@ -3,7 +3,7 @@ const InsertChallengeQuery =
   "INSERT INTO suggestionChallenge (name,category,explanation,image) VALUES (?,?,?,?)";
 const SelectTop10ChallengeQuery = "SELECT * FROM challenge ORDER BY count DESC LIMIT 10";
 const SelectBookMarkChallengeQuery =
-  "SELECT * FROM BookmarkChallenge  natural JOIN challenge WHERE userIdx = ? ORDER BY favoriteOrder DESC";
+  "SELECT image , challengeIdx, name FROM BookmarkChallenge  natural JOIN challenge WHERE userIdx = ? ORDER BY favoriteOrder ASC";
 
 /**********/
 const InsertTogetherChallengeQuery =
@@ -15,12 +15,14 @@ const DeleteTogetherChallengeQuery =
 const UPDATEBookMarkChallengeQuery =
   "UPDATE  BookmarkChallenge SET favoriteOrder = ? WHERE userIdx = ?  AND challengeIdx =?";
 /**********/
+const SelectTodayChallenge = "SELECT challengeIdx, name, image , creator, count FROM todayChallenge natural join challenge ORDER BY todayChallengeIdx DESC LIMIT 3 "
 
 const challengeModel = {
-  insertChallenge: async (name, categoryIdx, explanation, image) => {
+  insertChallenge: async (name, category, explanation, image) => {
     try {
-      await db.query(InsertChallengeQuery, [name, categoryIdx, explanation, image]);
+      await db.query(InsertChallengeQuery, [name, category, explanation, image]);
     } catch (e) {
+      console.log(e)
       throw new Error(600);
     }
   },
@@ -161,7 +163,7 @@ const challengeModel = {
     }
   },
 
-  getCommentByChallengeIdx: async challengeIdx => {
+  getCommentByChallengeIdx: async (challengeIdx) => {
     const selectCommentQuery = "SELECT * FROM comment WHERE challengeIdx=?";
     try {
       const [comments] = await db.query(selectCommentQuery, [challengeIdx]);
@@ -170,6 +172,18 @@ const challengeModel = {
       console.log(e);
       throw new Error(600);
     }
+  },
+
+  searchTodayChallengeList : async ()=>{
+      try {
+       const result= await db.query(SelectTodayChallenge);
+       return result[0];
+      } catch (e) {
+        throw new Error(600);
+      }
+
+
   }
+
 };
 module.exports = challengeModel;

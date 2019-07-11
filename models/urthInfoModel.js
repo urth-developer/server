@@ -2,7 +2,7 @@ const db = require('../config/dbConfig')
 
 /*********/
 const InsertRequestQuery = "INSERT INTO userRequest (userIdx , contents) VALUES (?,?)"
-const SelectSuggestionChallengeListQuery ="SELECT name , progressStatus FROM suggestionChallenge WHERE userIdx = ?"
+const SelectSuggestionChallengeListQuery ="SELECT suggesetionChallengeIdx,createTime, name , progressStatus,image FROM suggestionChallenge WHERE userIdx = ?"
 /*********/
 
 const urthInfoModel = {

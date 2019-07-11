@@ -8,12 +8,16 @@
   "dependencies": {
     "@hapi/joi": "^15.1.0",
     "@tensorflow/tfjs": "^1.2.2",
-    "aws-sdk": "^2.488.0",
+    "async": "^3.1.0",
+    "aws-sdk": "^2.491.0",
+    "buffer-to-stream": "^1.0.0",
     "cookie-parser": "~1.4.3",
     "crypto-promise": "^2.1.0",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "express-validator": "^6.1.1",
+    "form-data": "^2.5.0",
+    "formidable": "^1.2.1",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "joi": "^14.3.1",
@@ -24,6 +28,10 @@
     "mysql": "^2.17.1",
     "mysql2": "^1.6.5",
     "promise-mysql": "^4.0.4",
-    "rand-token": "^0.4.0"
+    "rand-token": "^0.4.0",
+    "request": "^2.88.0",
+    "rollup": "^1.16.7",
+    "rollup-plugin-visualizer": "^2.4.4",
+    "stream": "0.0.2"
   }
 }
