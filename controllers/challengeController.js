@@ -4,18 +4,22 @@ const responseMessage = require("../module/responseMessage");
 const statusCode = require("../module/statusCode");
 const utils = require("../module/utils");
 const jwt = require("../module/jwt");
+const validate = require("../module/validate");
 
 const challengeController = {
   createChallenge: async (req, res, next) => {
     try {
       const { name, category, explanation } = req.body;
       const image = req.file.location;
-      const creator =req.decoded.idx
+      const creator = req.decoded.idx;
       /*****
        * express-validation 필요 ,Parameter에 대한 오류 처리
        */
+      const { error } = validate.createChallenge(req.body);
+      if (error)
+        return res.status(200).json(successFalse(statusCode.BAD_REQUEST, error.details[0].message));
 
-      await challengeModel.insertChallenge(name, category, explanation, image,creator);
+      await challengeModel.insertChallenge(name, category, explanation, image, creator);
       res.json(utils.successTrue(statusCode.OK, responseMessage.CREATE_CHALLENGE_SUCCESS));
     } catch (error) {
       return next(error);
@@ -55,7 +59,10 @@ const challengeController = {
     try {
       /*****
        * express-validation 필요 ,Parameter에 대한 오류 처리
-       */
+      //  */
+      // const { error } = validate.createChallenge(req.body);
+      // if (error)
+      //   return res.status(200).json(successFalse(statusCode.BAD_REQUEST, error.details[0].message));
 
       const userIdx = req.decoded.idx;
       const favoriteChallengeList = req.body.favoriteChallengeList;
@@ -70,6 +77,10 @@ const challengeController = {
       /*****
        * express-validation 필요 ,Parameter에 대한 오류 처리
        */
+      // const { error } = validate.createChallenge(req.body);
+      // if (error)
+      //   return res.status(200).json(successFalse(statusCode.BAD_REQUEST, error.details[0].message));
+
       const usrIdx = req.decoded.idx;
       const challengeIdx = req.body.challengeIdx;
 
@@ -84,6 +95,10 @@ const challengeController = {
       /*****
        * express-validation 필요 ,Parameter에 대한 오류 처리
        */
+      // const { error } = validate.createChallenge(req.body);
+      // if (error)
+      //   return res.status(200).json(successFalse(statusCode.BAD_REQUEST, error.details[0].message));
+
       const usrIdx = req.decoded.idx;
       const challengeIdx = req.body.challengeIdx;
 
@@ -100,7 +115,11 @@ const challengeController = {
       const result = await challengeModel.SearchTogetherChallengeList(userIdx);
 
       res.json(
-        utils.successTrue(statusCode.OK, responseMessage.SEARCH_TOGETHER_CHALLENGE_LIST_SUCCESS,result)
+        utils.successTrue(
+          statusCode.OK,
+          responseMessage.SEARCH_TOGETHER_CHALLENGE_LIST_SUCCESS,
+          result
+        )
       );
     } catch (error) {
       return next(error);
@@ -177,22 +196,16 @@ const challengeController = {
       return next(err);
     }
   },
-  searchTodaysChallenge :async (req, res, next) =>{
+  searchTodaysChallenge: async (req, res, next) => {
     try {
-      console.log(123)
+      console.log(123);
       const result = await challengeModel.searchTodayChallengeList();
       res.json(
-        utils.successTrue(
-          statusCode.OK,
-          responseMessage.SEARCH_TODAY_CHALLENGE_SUCCESS,
-          result
-        )
+        utils.successTrue(statusCode.OK, responseMessage.SEARCH_TODAY_CHALLENGE_SUCCESS, result)
       );
     } catch (error) {
       return next(error);
     }
-
-
   },
 
   /***카테고리별 챌린지 리스트 조회 - 가인 ***/
