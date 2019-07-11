@@ -47,11 +47,20 @@ const userModel = {
     }
   },
 
-  create: async (id, nickname, cryptoPw, salt, profileImg) => {
+  create: async (id, nickname, cryptoPw, salt) => {
     try {
-      const insertUserQuery =
-        "INSERT INTO user (id,nickname,password, salt, profileImg) VALUES (?, ? ,? ,?, ?)";
-      await pool.query(insertUserQuery, [id, nickname, cryptoPw, salt, profileImg]);
+      const insertUserQuery = "INSERT INTO user (id,nickname,password, salt) VALUES (?, ? ,?, ?)";
+      await pool.query(insertUserQuery, [id, nickname, cryptoPw, salt]);
+    } catch (err) {
+      console.log(err);
+      throw new Error(600);
+    }
+  },
+
+  updateByUserIdx: async (userIdx, id, nickname, profileImg) => {
+    try {
+      const updateUserQuery = "UPDATE user SET id=?, nickname=?, profileImg=? WHERE userIdx=?";
+      await pool.query(updateUserQuery, [id, nickname, profileImg, userIdx]);
     } catch (err) {
       console.log(err);
       throw new Error(600);
