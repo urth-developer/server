@@ -1,21 +1,31 @@
 const db = require("../config/dbConfig");
 const InsertChallengeQuery =
   "INSERT INTO suggestionChallenge (name,category,explanation,image,creator) VALUES (?,?,?,?,?)";
-const SelectTop10ChallengeQuery = "SELECT * FROM challenge ORDER BY count DESC LIMIT 10";
-const SelectBookMarkChallengeQuery =
+
+/***creator 7/12 수정 필요****/
+/***수정 완료 7/12 */
+const SelectTop10ChallengeQuery = "SELECT challengeIdx,image, name,count , user.nickname as creator  FROM challenge  left join user on challenge.creator = user.userIdx ORDER BY count DESC LIMIT 10";
+
+  const SelectBookMarkChallengeQuery =
   "SELECT image , challengeIdx, name FROM BookmarkChallenge  natural JOIN challenge WHERE userIdx = ? ORDER BY favoriteOrder ASC";
 
 /**********/
 const InsertTogetherChallengeQuery =
   "INSERT INTO ongoingChallenge (userIdx , challengeIdx) VALUES (?,?)";
+
+/*** creator 7/12 수정 필요 ****/
+/****수정 완료 7/12**** */
 const SelectTogetherChallengeQuery =
-  "SELECT  ongoingChallenge.challengeIdx , name , challenge.image , count(authChallengeIdx) as count FROM ongoingChallenge natural join challenge left join authChallenge on ongoingChallenge.challengeIdx = authChallenge.challengeIdx where ongoingChallenge.userIdx = ? group by ongoingChallenge.challengeIdx";
+  "SELECT ongoingChallenge.challengeIdx , challenge.name , challenge.image , count(authChallengeIdx) as count, user.nickname as creator  FROM ongoingChallenge natural join challenge left join authChallenge on ongoingChallenge.challengeIdx = authChallenge.challengeIdx  left join user on challenge.creator = user.id  where ongoingChallenge.userIdx = ? group by  ongoingChallenge.challengeIdx";
 const DeleteTogetherChallengeQuery =
   "DELETE FROM ongoingChallenge WHERE userIdx = ? and challengeIdx =?";
 const UPDATEBookMarkChallengeQuery =
   "UPDATE  BookmarkChallenge SET favoriteOrder = ? WHERE userIdx = ?  AND challengeIdx =?";
-/**********/
-const SelectTodayChallenge = "SELECT challengeIdx, name, image , creator, count FROM todayChallenge natural join challenge ORDER BY todayChallengeIdx DESC LIMIT 3 "
+
+
+  /*****creator 7/12 수정 필요*****/
+  /***수정 완료 7/12 */
+const SelectTodayChallenge = "SELECT challengeIdx, name, image ,user.nickname as creator, count FROM todayChallenge natural join challenge left join user on creator = userIdx ORDER BY todayChallengeIdx DESC LIMIT 3"
 
 const challengeModel = {
   insertChallenge: async (name, category, explanation, image,creator) => {
@@ -73,7 +83,7 @@ const challengeModel = {
     }
   },
 
-  SearchTogetherChallengeList: async userIdx => {
+  SearchTogetherChallengeList: async (userIdx) => {
     try {
       const result = await db.query(SelectTogetherChallengeQuery, [userIdx]);
       console.log(result[0]);

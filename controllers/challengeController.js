@@ -94,12 +94,12 @@ const challengeController = {
   },
   searchTogetherChallenge: async (req, res, next) => {
     try {
-      const usrIdx = req.decoded.idx;
+      const userIdx = req.decoded.idx;
 
-      await challengeModel.searchTogetherChallenge();
+      const result = await challengeModel.SearchTogetherChallengeList(userIdx);
 
       res.json(
-        utils.successTrue(statusCode.OK, responseMessage.SEARCH_TOGETHER_CHALLENGE_LIST_SUCCESS)
+        utils.successTrue(statusCode.OK, responseMessage.SEARCH_TOGETHER_CHALLENGE_LIST_SUCCESS,result)
       );
     } catch (error) {
       return next(error);
