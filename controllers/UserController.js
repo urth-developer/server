@@ -64,7 +64,7 @@ const UserController = {
         nickname: user.nickname,
         level: user.level,
         experiencePoint: user.experiencePoint,
-        profileImg: user.profileImg
+        profileImg: user.profileImg ? userprofileImg : ""
       };
       return res
         .status(200)
@@ -183,7 +183,7 @@ const UserController = {
         nickname,
         level,
         experiencePoint,
-        profileImg,
+        profileImg: profileImg ? profileImg : "",
         userAuthCountsByCategory,
         userSuccessCount
       };
@@ -247,7 +247,8 @@ const UserController = {
         password: undefined,
         salt: undefined,
         experiencePoint: undefined,
-        friendship
+        friendship,
+        profileImg: searchResult.profileImg ? searchResult.profileImg : ""
       };
 
       // send response
@@ -265,7 +266,7 @@ const UserController = {
       const userIdx = req.decoded.idx;
 
       // get userIdx to add from params
-      const friendIdx = req.params.userIdx;
+      const friendIdx = req.body.userIdx;
 
       // check for friendship
       const alreadyFriends = await userModel.checkFriendship(userIdx, friendIdx);
@@ -332,7 +333,7 @@ const UserController = {
         nickname,
         level,
         experiencePoint,
-        profileImg,
+        profileImg: profileImg ? profileImg : "",
         userAuthCountsByCategory,
         userSuccessCount
       };
