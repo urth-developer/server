@@ -3,7 +3,7 @@ const db = require('../config/dbConfig')
 /***************/
 const insertAuthChallengeQuery ="INSERT INTO authChallenge (userIdx,challengeIdx,image) VALUES (?,?,?)"
 const updateReportImageQuery = "UPDATE authChallenge SET reportCount =  reportCount +1 WHERE authChallengeIdx =?"
-const selectReportImageListQuery  = "SELECT authChallengeIdx , userIdx , image FROM authChallenge where challengeIdx = ? and isWrong = 0 order by authChallengeIdx DESC limit 4;"
+const selectReportImageListQuery  = "SELECT authChallengeIdx , userIdx , image FROM authChallenge where challengeIdx = ? and isWrong = 0 and userIdx != ? order by authChallengeIdx DESC limit 4;"
 const selectChallengeMachineCategory = "SELECT machineLearningCategory.name , machineLearningCategoryIdx from challenge  inner join machineLearningCategory on challenge.machineLearningCategory = machineLearningCategory.machineLearningCategoryIdx  where challengeIdx =?"
 /***************/ 
 const challengeModel = {
@@ -28,9 +28,9 @@ const challengeModel = {
           }
     },
 
-    searchReportImageList : async(challengeIdx)=>{
+    searchReportImageList : async(challengeIdx,userIdx)=>{
         try{
-           const result =  await db.query(selectReportImageListQuery,[challengeIdx])
+           const result =  await db.query(selectReportImageListQuery,[challengeIdx,userIdx])
            return result
          }catch(e)
          {

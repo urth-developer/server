@@ -7,6 +7,7 @@ const FormData = require('form-data')
 const toStream = require('buffer-to-stream')
 const fs = require('fs')
 var aws = require('aws-sdk');
+const s3Url = "https://sopt24.s3.ap-northeast-2.amazonaws.com/"
 aws.config.loadFromPath(__dirname + '/../config/awsconfig.json');
 const s3 = new aws.S3()
 const AuthController = {
@@ -18,6 +19,8 @@ const AuthController = {
      */
     const {challengeIdx} = req.body
     const userIdx = req.decoded.idx
+
+    console.log(req.file)
      //1.해당 챌린지 machine Learninng 필요 유무 판별
     const result = await authModel.selectMachineCategoryByChallengeIdx(challengeIdx)
     let paramS3 ={
@@ -56,8 +59,10 @@ const AuthController = {
                     return next(err) 
                 }
                 else{
-                const url = s3.getSignedUrl('getObject',{Bucket: 'sopt24', Key: req.file.originalname});
+                const url = s3Url +req.file.originalname;
+                console.log(url)
             
+        
                 try{
                 await authModel.insertAuthChallenge(userIdx,challengeIdx,url)
                 return res.json(utils.successTrue(statusCode.OK,responseMessage.AUTH_CHALLENGE_IMG_SUCCESS))
@@ -94,12 +99,13 @@ const AuthController = {
             return next(err) 
         }
         else{
-        const url = s3.getSignedUrl('getObject',{Bucket: 'sopt24', Key: req.file.originalname});
+        const url = s3Url +req.file.originalname
         console.log(url)
         try{
             await authModel.insertAuthChallenge(userIdx,challengeIdx,url)
             return res.json(utils.successTrue(statusCode.OK,responseMessage.AUTH_CHALLENGE_IMG_SUCCESS))
        
+
         }catch(e)
         {
             console.log(e)
@@ -119,7 +125,8 @@ const AuthController = {
 
         try{
             const challengeIdx = req.params.challengeIdx
-            const result = await authModel.searchReportImageList(challengeIdx)
+            const userIdx = req.decoded.idx
+            const result = await authModel.searchReportImageList(challengeIdx,userIdx)
             res.json(utils.successTrue(statusCode.OK,responseMessage.SEARCH_REPORT_IMG_SUCCESS ,result[0]))
         }
         catch(error)
