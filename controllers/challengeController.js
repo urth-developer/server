@@ -185,7 +185,13 @@ const challengeController = {
       const challenges = await challengeModel.findAllChallengesWithSameCategory(categoryIdx);
       return res
         .status(200)
-        .json(utils.successTrue(statusCode.OK, responseMessage.GET_USER_DATA_SUCCESS, challenges));
+        .json(
+          utils.successTrue(
+            statusCode.OK,
+            responseMessage.GET_CHALLENGE_BY_CATEGORY_SUCCESS,
+            challenges
+          )
+        );
     } catch (err) {
       console.log(err);
       return res.status(200).json(utils.successFalse(statusCode.DB_ERROR, responseMessage.DB_ERR));

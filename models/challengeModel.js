@@ -82,7 +82,8 @@ const challengeModel = {
   },
 
   findAllChallengesWithSameCategory: async categoryIdx => {
-    const selectAllChallengesWithSameCategoryQuery = "SELECT * FROM challenge WHERE category=?";
+    const selectAllChallengesWithSameCategoryQuery =
+      "SELECT challengeIdx, name, image, count, category, nickname AS creator FROM challenge INNER JOIN user ON challenge.creator=user.userIdx WHERE category=?";
 
     try {
       const [challenges] = await db.query(selectAllChallengesWithSameCategoryQuery, [categoryIdx]);
@@ -126,7 +127,8 @@ const challengeModel = {
   },
 
   searchByWord: async searchWord => {
-    const selectAllKeywordsQuery = "SELECT * FROM challenge WHERE name LIKE ?";
+    const selectAllKeywordsQuery =
+      "SELECT challengeIdx, name, image, count, category, nickname AS creator FROM challenge INNER JOIN user ON challenge.creator=user.userIdx WHERE name LIKE ?";
 
     try {
       let [challenges] = await db.query(selectAllKeywordsQuery, ["%" + searchWord + "%"]);

@@ -40,6 +40,7 @@ module.exports = {
   GET_KEYWORDS_SUCCESS: "검색 키워드 리스트 조회 성공",
   GET_CHALLENGE_SEARCH_RESULT_SUCCESS: "검색한 챌린지 리스트 조회 성공",
   GET_CHALLENGE_DETAIL_SUCCESS: "챌린지 상세보기 성공",
+  GET_CHALLENGE_BY_CATEGORY_SUCCESS: "카테고리별 챌린지 리스트 조회 성공",
   CREATE_COMMENT_SUCCESS: "챌린지 한줄 응원 등록 성공",
   GET_COMMENT_SUCCESS: "챌린지 한줄 응원 리스트 조회 성공",
 
