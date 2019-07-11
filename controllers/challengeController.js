@@ -9,11 +9,12 @@ const challengeController = {
     try {
       const { name, category, explanation } = req.body;
       const image = req.file.location;
+      const creator = req.decoded
       /*****
        * express-validation 필요 ,Parameter에 대한 오류 처리
        */
 
-      await challengeModel.insertChallenge(name, category, explanation, image);
+      await challengeModel.insertChallenge(name, category, explanation, image,creator);
       res.json(utils.successTrue(statusCode.OK, responseMessage.CREATE_CHALLENGE_SUCCESS));
     } catch (error) {
       return next(error);

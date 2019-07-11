@@ -1,6 +1,6 @@
 const db = require("../config/dbConfig");
 const InsertChallengeQuery =
-  "INSERT INTO suggestionChallenge (name,category,explanation,image) VALUES (?,?,?,?)";
+  "INSERT INTO suggestionChallenge (name,category,explanation,image,creator) VALUES (?,?,?,?,?)";
 const SelectTop10ChallengeQuery = "SELECT * FROM challenge ORDER BY count DESC LIMIT 10";
 const SelectBookMarkChallengeQuery =
   "SELECT image , challengeIdx, name FROM BookmarkChallenge  natural JOIN challenge WHERE userIdx = ? ORDER BY favoriteOrder ASC";
@@ -18,9 +18,9 @@ const UPDATEBookMarkChallengeQuery =
 const SelectTodayChallenge = "SELECT challengeIdx, name, image , creator, count FROM todayChallenge natural join challenge ORDER BY todayChallengeIdx DESC LIMIT 3 "
 
 const challengeModel = {
-  insertChallenge: async (name, category, explanation, image) => {
+  insertChallenge: async (name, category, explanation, image,creator) => {
     try {
-      await db.query(InsertChallengeQuery, [name, category, explanation, image]);
+      await db.query(InsertChallengeQuery, [name, category, explanation, image,creator]);
     } catch (e) {
       console.log(e)
       throw new Error(600);
