@@ -20,7 +20,7 @@ const SelectTodayChallenge = "SELECT challengeIdx, name, image , creator, count 
 const challengeModel = {
   insertChallenge: async (name, category, explanation, image,creator) => {
     try {
-      await db.query(InsertChallengeQuery, [name, category, explanation, image,creator]);
+      await db.query(InsertChallengeQuery, [name,category,explanation,image, creator]);
     } catch (e) {
       console.log(e)
       throw new Error(600);

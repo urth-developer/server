@@ -9,7 +9,7 @@ const challengeController = {
     try {
       const { name, category, explanation } = req.body;
       const image = req.file.location;
-      const creator = req.decoded
+      const creator =req.decoded.idx
       /*****
        * express-validation 필요 ,Parameter에 대한 오류 처리
        */
