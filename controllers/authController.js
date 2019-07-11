@@ -64,24 +64,24 @@ const AuthController = {
                 }catch(e)
                 {
                     console.log(e)
-                    next(e)
+                   return next(e)
 
                 }
                 }  
               });
-            return  res.json(utils.successTrue(statusCode.OK,responseMessage.AUTH_CHALLENGE_IMG_SUCCESS))
+            //return  res.json(utils.successTrue(statusCode.OK,responseMessage.AUTH_CHALLENGE_IMG_SUCCESS))
             }
             else
             {
                //인증 결과 불일치
-            return  res.json(utils.successFalse(statusCode.OK,responseMessage.AUTH_CHALLENGE_IMG_FAIL))
+            return res.json(utils.successFalse(statusCode.OK,responseMessage.AUTH_CHALLENGE_IMG_FAIL))
             }
             });
     }
     catch(e)
     {
         console.log(e)
-        next(e)
+         return next(e)
     }
 
 
@@ -103,7 +103,7 @@ const AuthController = {
         }catch(e)
         {
             console.log(e)
-            next(e)
+          return  next(e)
 
         }
 
