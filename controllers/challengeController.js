@@ -7,13 +7,13 @@ const jwt = require("../module/jwt");
 const challengeController = {
   createChallenge: async (req, res, next) => {
     try {
-      const { title, categoryIdx, explanation } = req.body;
+      const { name, category, explanation } = req.body;
       const image = req.file.location;
       /*****
        * express-validation 필요 ,Parameter에 대한 오류 처리
        */
 
-      await challengeModel.insertChallenge(title, categoryIdx, explanation, image);
+      await challengeModel.insertChallenge(name, category, explanation, image);
       res.json(utils.successTrue(statusCode.OK, responseMessage.CREATE_CHALLENGE_SUCCESS));
     } catch (error) {
       return next(error);
@@ -37,7 +37,7 @@ const challengeController = {
   searchBookMarkChallengeList: async (req, res, next) => {
     try {
       const usrIdx = req.decoded.idx;
-      const result = await challengeModel.searchBookMarkChallengeList(usrIdx);
+      const result = await challengeModel.SearchBookMarkChallengeList(usrIdx);
       res.json(
         utils.successTrue(
           statusCode.OK,
@@ -174,6 +174,23 @@ const challengeController = {
     } catch (err) {
       return next(err);
     }
+  },
+  searchTodaysChallenge :async (req, res, next) =>{
+    try {
+      console.log(123)
+      const result = await challengeModel.searchTodayChallengeList();
+      res.json(
+        utils.successTrue(
+          statusCode.OK,
+          responseMessage.SEARCH_TODAY_CHALLENGE_SUCCESS,
+          result
+        )
+      );
+    } catch (error) {
+      return next(error);
+    }
+
+
   },
 
   /***카테고리별 챌린지 리스트 조회 - 가인 ***/

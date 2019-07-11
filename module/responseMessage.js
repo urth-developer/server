@@ -21,8 +21,8 @@ module.exports = {
   MEMBERSHIP_INSERT_SUCCESS: "인서트 성공",
   CREATE_CHALLENGE_SUCCESS: "챌린지 개설 건의 성공했습니다.",
   SEARCH_TOP10_CHALLENGE_LIST_SUCCESS: "top10 챌린지 리스트 조회 성공했습니다.",
-  SEARCH_BOOKMARK_CHALLENGE_LIST_SUCCESS: "즐켜찾기 챌린지 리스트 조히 성공했습니다.",
-  SEARCH_TOGETHER_CHALLENGE_LIST_SUCCESS: "함께하기 챌린지 리스트 조히 성공했습니다.",
+  SEARCH_BOOKMARK_CHALLENGE_LIST_SUCCESS: "즐겨찾기 챌린지 리스트 조회 성공했습니다.",
+  SEARCH_TOGETHER_CHALLENGE_LIST_SUCCESS: "함께하기 챌린지 리스트 조회 성공했습니다.",
   INSERT_TOGETHER_CHALLENGE_SUCCESS: "함께하기 챌린지 추가 성공했습니다.",
   DELETE_TOGETHER_CHALLENGE_SUCCESS: "함께하기 챌린지 삭제 성공했습니다.",
   UPDATE_BOOKMARK_CHALLENGE_SUCCESS: "즐겨찾기 챌린지 순서 변경 성공했습니다.",
@@ -63,5 +63,7 @@ module.exports = {
 
   /***** 어스 서비스 관련 *******/
   SEARCH_URTH_SUGGESTION_CHALLENGE_SUCCESS: "챌린지 건의 현황 정보 리스트 조회 성공했습니다.",
-  REQUEST_FOR_URTH_SUCCESS: "어스에 건의 하기 성공했습니다."
+  REQUEST_FOR_URTH_SUCCESS: "어스에 건의 하기 성공했습니다.",
+  SEARCH_TODAY_CHALLENGE_SUCCESS : "오늘의 챌린지 리스트 조회 성공했습니다."
+
 };

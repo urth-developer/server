@@ -14,6 +14,5 @@ module.exports = router => {
   router.route("/user/friends/list").get(auth, userController.getFriendList);
   router.route("/user/friends/timeline/:userIdx").get(auth, userController.getFriendTimeline);
   router.route("/user/friends/:userIdx").get(auth, userController.getFriendData);
-
   return router;
 };
