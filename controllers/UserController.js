@@ -4,6 +4,7 @@ const path = require("path");
 const modulePath = path.join(__dirname, "../../module");
 const utils = require("../module/utils.js");
 const statusCode = require("../module/statusCode.js");
+const moment = require("moment");
 
 // DB connection
 const pool = require("../config/dbConfig");
@@ -206,8 +207,15 @@ const UserController = {
       // authChallengeIdx, userIdx, challengeIdx, image, time
 
       // get category count from authChallenge and challenge joined table
-      const timeline = await userModel.findAuthChallengeByUserIdx(userIdx);
-      console.log(timeline);
+      let timeline = await userModel.findAuthChallengeByUserIdx(userIdx);
+      console.log(moment(timeline[0].time).format("MM.DD"));
+
+      timeline = timeline.map(elem => {
+        return {
+          ...elem,
+          time: moment(elem.time).format("MM.DD")
+        };
+      });
 
       // send response
       return res
@@ -352,8 +360,15 @@ const UserController = {
       // authChallengeIdx, userIdx, challengeIdx, image, time
 
       // get category count from authChallenge and challenge joined table
-      const timeline = await userModel.findAuthChallengeByUserIdx(friendIdx);
+      let timeline = await userModel.findAuthChallengeByUserIdx(friendIdx);
       console.log(timeline);
+
+      timeline = timeline.map(elem => {
+        return {
+          ...elem,
+          time: moment(elem.time).format("MM.DD")
+        };
+      });
 
       // send response
       return res
