@@ -55,6 +55,7 @@ module.exports = {
   NO_FRIENDS: "친구가 없습니다.",
   GET_FRIEND_DATA_SUCCESS: "친구 상세 정보 조회 성공.",
   GET_TIMELINE_SUCCESS: "유저의 타임라인 조회 성공",
+  GET_TIMELINE_FAIL: "유저의 타임라인이 없습니다.",
 
   /******인증 관련 RES MSG******* */
   REPORT_WRONG_IMG_SUCCESS: "해당 이미지 신고 하기가 성공했습니다.",

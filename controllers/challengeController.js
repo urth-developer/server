@@ -183,13 +183,27 @@ const challengeController = {
       const userSuccessCount = challengeDetail.filter(elem => elem.participant === userIdx).length;
       const participantCount = [...new Set(participantArray)].length;
 
-      const returnData = {
-        ...challengeDetail[0],
-        participant: undefined,
-        totalSuccessCount,
-        participantCount,
-        userSuccessCount
-      };
+      let returnData = {};
+      if (!challengeDetail[0]) {
+        const challengeInfo = await challengeModel.findChallengeByChallengeIdx(
+          req.params.challengeIdx
+        );
+
+        returnData = {
+          ...challengeInfo[0],
+          totalSuccessCount,
+          participantCount,
+          userSuccessCount
+        };
+      } else {
+        returnData = {
+          ...challengeDetail[0],
+          participant: undefined,
+          totalSuccessCount,
+          participantCount,
+          userSuccessCount
+        };
+      }
 
       return res
         .status(200)
@@ -216,6 +230,7 @@ const challengeController = {
   searchCategoryChallenge: async (req, res, next) => {
     // get all challenges that belong to a certain category
     const categoryIdx = req.params.categoryIdx;
+    console.log(categoryIdx);
 
     try {
       const challenges = await challengeModel.findAllChallengesWithSameCategory(categoryIdx);

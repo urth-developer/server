@@ -162,6 +162,16 @@ const challengeModel = {
       throw new Error(600);
     }
   },
+  findChallengeByChallengeIdx: async challengeIdx => {
+    const selectChallengeQuery =
+      "SELECT nickname AS creator, challengeIdx, name, explanation, image, count, category FROM challenge INNER JOIN user ON challenge.creator=user.userIdx WHERE challenge.challengeIdx=?";
+    try {
+      let [challengeDetail] = await db.query(selectChallengeQuery, [challengeIdx]);
+      return challengeDetail;
+    } catch (e) {
+      throw new Error(600);
+    }
+  },
 
   createComment: async (userIdx, challengeIdx, comment) => {
     const insertCommentQuery =
