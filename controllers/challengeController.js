@@ -15,9 +15,9 @@ const challengeController = {
       /*****
        * express-validation 필요 ,Parameter에 대한 오류 처리
        */
-      const { error } = validate.createChallenge(req.body);
-      if (error)
-        return res.status(200).json(utils.successFalse(statusCode.BAD_REQUEST, error.details[0].message));
+      // const { error } = validate.createChallenge(req.body);
+      // if (error)
+      //   return res.status(200).json(utils.successFalse(statusCode.BAD_REQUEST, error.details[0].message));
 
       await challengeModel.insertChallenge(name, category, explanation, image, creator);
       res.json(utils.successTrue(statusCode.OK, responseMessage.CREATE_CHALLENGE_SUCCESS));
