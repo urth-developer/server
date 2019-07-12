@@ -13,6 +13,6 @@ module.exports = router => {
   router.route("/user/friends").post(auth, userController.addFriend);
   router.route("/user/friends/list").get(auth, userController.getFriendList);
   router.route("/user/friends/timeline/:userIdx").get(auth, userController.getFriendTimeline);
-  router.route("/user/friends/:userIdx").get(auth, userController.getFriendData);
+  router.route("/user/friends/:userIdx").post(auth, userController.getFriendData);
   return router;
 };
