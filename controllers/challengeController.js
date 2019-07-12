@@ -74,7 +74,7 @@ const challengeController = {
       const challengeIdx = req.body.challengeIdx;
 
       await challengeModel.DeleteTogetherChallenge(usrIdx, challengeIdx);
-      res.json(utils.successTrue(statusCode.OK, responseMessage.DeleteTogetherChallenge));
+      res.json(utils.successTrue(statusCode.OK, responseMessage.DELETE_TOGETHER_CHALLENGE_SUCCESS));
     } catch (error) {
       return next(error);
     }
