@@ -32,7 +32,7 @@ const AuthController = {
     const dateString = moment().format("YYYY-MM-DD HH:mm:ss").toString()
     let paramS3 = {
       Bucket: "sopt24",
-      Key: req.file.originalname + dateString,
+      Key:  dateString+req.file.originalname,
       Body: new Buffer(req.file.buffer, "binary")
     };
     if (result[0].machineLearningCategoryIdx != 1) {
@@ -64,7 +64,7 @@ const AuthController = {
                 if (err) {
                   return next(err);
                 } else {
-                  const url = s3Url + req.file.originalname+dateString;
+                  const url = s3Url + dateString+req.file.originalname;
                   console.log(url);
 
                   try {
@@ -97,7 +97,7 @@ const AuthController = {
         if (err) {
           return next(err);
         } else {
-          const url = s3Url + req.file.originalname+dateString;
+          const url = s3Url + dateString+req.file.originalname;
 
           console.log(url);
           try {
