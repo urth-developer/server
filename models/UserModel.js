@@ -132,17 +132,19 @@ const userModel = {
   findAllFriendsByUserIdx: async userIdx => {
     try {
       const checkFriendOfUser1IdxQuery =
-        "SELECT COUNT(*) AS userSuccessCount, userIdx, nickname, level, profileImg FROM friendship INNER JOIN user ON friendship.user2Idx=user.userIdx NATURAL JOIN authChallenge WHERE friendship.user1Idx=? GROUP BY userIdx";
+        "SELECT user.userIdx, nickname, level, profileImg, authChallengeIdx, COUNT(*) AS userSuccessCount FROM friendship INNER JOIN user ON friendship.user2Idx=user.userIdx LEFT JOIN authChallenge ON user.userIdx=authChallenge.userIdx WHERE friendship.user1Idx=? GROUP BY userIdx";
       const [result1] = await pool.query(checkFriendOfUser1IdxQuery, [userIdx]);
-
+      console.log(result1);
       const checkFriendOfUser2IdxQuery =
-        "SELECT userIdx, nickname, level, profileImg, COUNT(*) AS userSuccessCount FROM friendship INNER JOIN user ON friendship.user1Idx=user.userIdx NATURAL JOIN authChallenge WHERE friendship.user2Idx=? GROUP BY userIdx";
+        "SELECT user.userIdx, nickname, level, authChallengeIdx, profileImg, COUNT(*) AS userSuccessCount FROM friendship INNER JOIN user ON friendship.user1Idx=user.userIdx LEFT JOIN authChallenge ON user.userIdx=authChallenge.userIdx WHERE friendship.user2Idx=? GROUP BY userIdx";
       const [result2] = await pool.query(checkFriendOfUser2IdxQuery, [userIdx]);
+      console.log(result2);
 
-      return result1.concat(result2);
-      // const friendList = [];
-      // result.forEach(elem => friendList.push(elem.user1Idx, elem.user2Idx));
-      // return friendList.filter(idx => idx !== userIdx);
+      const friendList = result1.concat(result2).map(elem => {
+        if (!elem.authChallengeIdx) return { ...elem, userSuccessCount: 0 };
+        return elem;
+      });
+      return friendList;
     } catch (err) {
       console.log(err);
       throw new Error(600);
