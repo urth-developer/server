@@ -170,9 +170,13 @@ const challengeController = {
     try {
       const userIdx = req.decoded.idx;
 
+      console.log(req.params.challengeIdx);
+
       const challengeDetail = await challengeModel.findChallengeDetailByChallengeIdx(
         req.params.challengeIdx
       );
+
+      console.log(challengeDetail);
 
       const totalSuccessCount = challengeDetail.length;
       const participantArray = challengeDetail.map(elem => elem.participant);
