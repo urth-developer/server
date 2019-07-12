@@ -9,6 +9,7 @@ const fs = require("fs");
 const validate = require("../module/validate");
 var aws = require("aws-sdk");
 const s3Url = "https://sopt24.s3.ap-northeast-2.amazonaws.com/";
+const moment = require('moment');
 aws.config.loadFromPath(__dirname + "/../config/awsconfig.json");
 const s3 = new aws.S3();
 const AuthController = {
@@ -27,9 +28,10 @@ const AuthController = {
     console.log(req.file);
     //1.해당 챌린지 machine Learninng 필요 유무 판별
     const result = await authModel.selectMachineCategoryByChallengeIdx(challengeIdx);
+    const dateString = moment().format("YYYY-MM-DD HH:mm:ss").toString()
     let paramS3 = {
       Bucket: "sopt24",
-      Key: req.file.originalname,
+      Key: req.file.originalname + dateString,
       Body: new Buffer(req.file.buffer, "binary")
     };
     if (result[0].machineLearningCategoryIdx != 1) {
@@ -61,7 +63,7 @@ const AuthController = {
                 if (err) {
                   return next(err);
                 } else {
-                  const url = s3Url + req.file.originalname;
+                  const url = s3Url + req.file.originalname+dateString;
                   console.log(url);
 
                   try {
@@ -94,8 +96,7 @@ const AuthController = {
         if (err) {
           return next(err);
         } else {
-          const url = s3Url + req.file.originalname;
-          c
+          const url = s3Url + req.file.originalname+dateString;
           console.log(url);
           try {
             await authModel.insertAuthChallenge(userIdx, challengeIdx, url);
@@ -151,7 +152,7 @@ const AuthController = {
       /****** */
 
 
- 
+      /******** */
       res.json(
         utils.successTrue(statusCode.OK, responseMessage.SEARCH_REPORT_IMG_SUCCESS, result[0])
       );
