@@ -65,7 +65,7 @@ const UserController = {
         nickname: user.nickname,
         level: user.level,
         experiencePoint: user.experiencePoint,
-        profileImg: user.profileImg ? userprofileImg : ""
+        profileImg: user.profileImg ? user.profileImg : ""
       };
       return res
         .status(200)
