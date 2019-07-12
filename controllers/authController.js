@@ -1,4 +1,5 @@
 const responseMessage = require("../module/responseMessage");
+const challengeModel = require("../models/challengeModel");
 const statusCode = require("../module/statusCode");
 const utils = require("../module/utils");
 const authModel = require("../models/authModel");
@@ -18,8 +19,8 @@ const AuthController = {
      * Expree validator 필요
      *
      */
-   // const { error } = validate.authChallenge(req.body);
-   // if (error)
+    // const { error } = validate.authChallenge(req.body);
+    // if (error)
     //  return res.status(200).json(util.successFalse(statusCode.BAD_REQUEST, error.details[0].message));
 
     const { challengeIdx } = req.body;
@@ -97,6 +98,7 @@ const AuthController = {
           return next(err);
         } else {
           const url = s3Url + req.file.originalname+dateString;
+
           console.log(url);
           try {
             await authModel.insertAuthChallenge(userIdx, challengeIdx, url);
@@ -145,21 +147,40 @@ const AuthController = {
       return next(error);
     }
   },
-  searchAuthResult : async (req, res, next)=>{
+  searchAuthResult: async (req, res, next) => {
     try {
       const challengeIdx = req.params.challengeIdx;
-      const userIdx = req.decoded.idx;db
+      const userIdx = req.decoded.idx;
+      console.log(userIdx);
       /****** */
 
+      const challengeDetail = await challengeModel.findChallengeDetailByChallengeIdx(challengeIdx);
 
-      /******** */
+      const totalSuccessCount = challengeDetail.length;
+      const participantArray = challengeDetail.map(elem => elem.participant);
+      const userSuccessCount = challengeDetail.filter(elem => elem.participant === userIdx).length;
+      const participantCount = [...new Set(participantArray)].length;
+
+      const returnData = {
+        ...challengeDetail[0],
+        participant: undefined,
+        name: undefined,
+        creator: undefined,
+        explanation: undefined,
+        image: undefined,
+        userSuccessCount
+      };
+
+      // categoryIdx
+      // 그 해당 챌린지 총 카운트
+      // 그 해당 챌린지 유저 카운트
+
       res.json(
-        utils.successTrue(statusCode.OK, responseMessage.SEARCH_REPORT_IMG_SUCCESS, result[0])
+        utils.successTrue(statusCode.OK, responseMessage.AUTH_CHALLENGE_RESULT_SUCCESS, returnData)
       );
     } catch (error) {
       return next(error);
     }
-
   }
 };
 module.exports = AuthController;

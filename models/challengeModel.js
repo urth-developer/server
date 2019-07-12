@@ -4,9 +4,10 @@ const InsertChallengeQuery =
 
 /***creator 7/12 수정 필요****/
 /***수정 완료 7/12 */
-const SelectTop10ChallengeQuery = "SELECT challengeIdx,image, name,count , user.nickname as creator  FROM challenge  left join user on challenge.creator = user.userIdx ORDER BY count DESC LIMIT 10";
+const SelectTop10ChallengeQuery =
+  "SELECT challengeIdx,image, name,count , user.nickname as creator  FROM challenge  left join user on challenge.creator = user.userIdx ORDER BY count DESC LIMIT 10";
 
-  const SelectBookMarkChallengeQuery =
+const SelectBookMarkChallengeQuery =
   "SELECT image , challengeIdx, name FROM BookmarkChallenge  natural JOIN challenge WHERE userIdx = ? ORDER BY favoriteOrder ASC";
 
 /**********/
@@ -22,17 +23,17 @@ const DeleteTogetherChallengeQuery =
 const UPDATEBookMarkChallengeQuery =
   "UPDATE  BookmarkChallenge SET favoriteOrder = ? WHERE userIdx = ?  AND challengeIdx =?";
 
-
-  /*****creator 7/12 수정 필요*****/
-  /***수정 완료 7/12 */
-const SelectTodayChallenge = "SELECT challengeIdx, name, image ,user.nickname as creator, count FROM todayChallenge natural join challenge left join user on creator = userIdx ORDER BY todayChallengeIdx DESC LIMIT 3"
+/*****creator 7/12 수정 필요*****/
+/***수정 완료 7/12 */
+const SelectTodayChallenge =
+  "SELECT challengeIdx, name, image ,user.nickname as creator, count FROM todayChallenge natural join challenge left join user on creator = userIdx ORDER BY todayChallengeIdx DESC LIMIT 3";
 
 const challengeModel = {
-  insertChallenge: async (name, category, explanation, image,creator) => {
+  insertChallenge: async (name, category, explanation, image, creator) => {
     try {
-      await db.query(InsertChallengeQuery, [name,category,explanation,image, creator]);
+      await db.query(InsertChallengeQuery, [name, category, explanation, image, creator]);
     } catch (e) {
-      console.log(e)
+      console.log(e);
       throw new Error(600);
     }
   },
@@ -83,7 +84,7 @@ const challengeModel = {
     }
   },
 
-  SearchTogetherChallengeList: async (userIdx) => {
+  SearchTogetherChallengeList: async userIdx => {
     try {
       const result = await db.query(SelectTogetherChallengeQuery, [userIdx]);
       console.log(result[0]);
@@ -153,7 +154,7 @@ const challengeModel = {
 
   findChallengeDetailByChallengeIdx: async challengeIdx => {
     const selectChallengeQuery =
-      "SELECT nickname AS creator, challenge.challengeIdx, authChallenge.userIdx AS participant, name, explanation, challenge.image, count, category FROM challenge INNER JOIN authChallenge ON challenge.challengeIdx=authChallenge.challengeIdx INNER JOIN user ON challenge.creator=user.userIdx WHERE challenge.challengeIdx=2";
+      "SELECT nickname AS creator, challenge.challengeIdx, authChallenge.userIdx AS participant, name, explanation, challenge.image, count, category FROM challenge INNER JOIN authChallenge ON challenge.challengeIdx=authChallenge.challengeIdx INNER JOIN user ON authChallenge.userIdx=user.userIdx WHERE challenge.challengeIdx=?";
     try {
       let [challengeDetail] = await db.query(selectChallengeQuery, [challengeIdx]);
       return challengeDetail;
@@ -173,7 +174,7 @@ const challengeModel = {
     }
   },
 
-  getCommentByChallengeIdx: async (challengeIdx) => {
+  getCommentByChallengeIdx: async challengeIdx => {
     const selectCommentQuery = "SELECT * FROM comment WHERE challengeIdx=?";
     try {
       const [comments] = await db.query(selectCommentQuery, [challengeIdx]);
@@ -184,16 +185,13 @@ const challengeModel = {
     }
   },
 
-  searchTodayChallengeList : async ()=>{
-      try {
-       const result= await db.query(SelectTodayChallenge);
-       return result[0];
-      } catch (e) {
-        throw new Error(600);
-      }
-
-
+  searchTodayChallengeList: async () => {
+    try {
+      const result = await db.query(SelectTodayChallenge);
+      return result[0];
+    } catch (e) {
+      throw new Error(600);
+    }
   }
-
 };
 module.exports = challengeModel;
