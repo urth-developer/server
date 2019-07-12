@@ -149,6 +149,7 @@ const AuthController = {
     try {
       const challengeIdx = req.params.challengeIdx;
       const userIdx = req.decoded.idx;
+      console.log(userIdx);
       /****** */
 
       const challengeDetail = await challengeModel.findChallengeDetailByChallengeIdx(challengeIdx);
@@ -173,7 +174,7 @@ const AuthController = {
       // 그 해당 챌린지 유저 카운트
 
       res.json(
-        utils.successTrue(statusCode.OK, responseMessage.SEARCH_REPORT_IMG_SUCCESS, returnData)
+        utils.successTrue(statusCode.OK, responseMessage.AUTH_CHALLENGE_RESULT_SUCCESS, returnData)
       );
     } catch (error) {
       return next(error);
