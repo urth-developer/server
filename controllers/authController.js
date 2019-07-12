@@ -133,9 +133,9 @@ const AuthController = {
        * express-validation 필요 ,Parameter에 대한 오류 처리
        */
 
-      const { error } = validate.reportChallenge(req.body);
-      if (error)
-        return res.status(200).json(successFalse(statusCode.BAD_REQUEST, error.details[0].message));
+     // const { error } = validate.reportChallenge(req.body);
+    //  if (error)
+     //   return res.status(200).json(successFalse(statusCode.BAD_REQUEST, error.details[0].message));
 
       console.log(req.body);
       const { authChallengeIdx } = req.body;
