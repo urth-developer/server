@@ -92,7 +92,7 @@ const userModel = {
 
   findAuthChallengeByUserIdx: async userIdx => {
     try {
-      const selectAuthChallengeQuery = `SELECT * FROM authChallenge WHERE userIdx=? ORDER BY time DESC`;
+      const selectAuthChallengeQuery = `SELECT * FROM authChallenge LEFT JOIN challenge ON authChallenge.challengeIdx=challenge.challengeIdx WHERE userIdx=? ORDER BY time DESC`;
       const [timeline] = await pool.query(selectAuthChallengeQuery, [userIdx]);
       return timeline;
     } catch (err) {
@@ -129,7 +129,7 @@ const userModel = {
     }
   },
 
-  findAllFriendsByUserIdx: async (userIdx) => {
+  findAllFriendsByUserIdx: async userIdx => {
     try {
       const checkFriendOfUser1IdxQuery =
         "SELECT user.userIdx, nickname, level, profileImg, authChallengeIdx, COUNT(*) AS userSuccessCount FROM friendship INNER JOIN user ON friendship.user2Idx=user.userIdx LEFT JOIN authChallenge ON user.userIdx=authChallenge.userIdx WHERE friendship.user1Idx=? GROUP BY userIdx";

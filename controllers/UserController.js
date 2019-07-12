@@ -208,12 +208,26 @@ const UserController = {
 
       // get category count from authChallenge and challenge joined table
       let timeline = await userModel.findAuthChallengeByUserIdx(userIdx);
+      if (!timeline[0])
+        return res
+          .status(200)
+          .json(successTrue(statusCode.OK, responseMessage.GET_TIMELINE_FAIL, timeline));
       console.log(moment(timeline[0].time).format("MM.DD"));
 
       timeline = timeline.map(elem => {
         return {
           ...elem,
-          time: moment(elem.time).format("MM.DD")
+          time: moment(elem.time).format("MM.DD"),
+          userIdx: undefined,
+          authChallengeIdx: undefined,
+          reportCount: undefined,
+          isWrong: undefined,
+          machineLearningCategory: undefined,
+          challengeIdx: undefined,
+          explanation: undefined,
+          category: undefined,
+          creator: undefined,
+          count: undefined
         };
       });
 
@@ -374,7 +388,17 @@ const UserController = {
       timeline = timeline.map(elem => {
         return {
           ...elem,
-          time: moment(elem.time).format("MM.DD")
+          time: moment(elem.time).format("MM.DD"),
+          userIdx: undefined,
+          authChallengeIdx: undefined,
+          reportCount: undefined,
+          isWrong: undefined,
+          machineLearningCategory: undefined,
+          challengeIdx: undefined,
+          explanation: undefined,
+          category: undefined,
+          creator: undefined,
+          count: undefined
         };
       });
 
