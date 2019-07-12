@@ -129,7 +129,7 @@ const userModel = {
     }
   },
 
-  findAllFriendsByUserIdx: async userIdx => {
+  findAllFriendsByUserIdx: async (userIdx) => {
     try {
       const checkFriendOfUser1IdxQuery =
         "SELECT COUNT(*) AS userSuccessCount, userIdx, nickname, level, profileImg FROM friendship INNER JOIN user ON friendship.user2Idx=user.userIdx NATURAL JOIN authChallenge WHERE friendship.user1Idx=? GROUP BY userIdx";

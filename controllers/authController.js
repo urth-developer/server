@@ -19,7 +19,7 @@ const AuthController = {
      */
    // const { error } = validate.authChallenge(req.body);
    // if (error)
-    //  return res.status(200).json(successFalse(statusCode.BAD_REQUEST, error.details[0].message));
+    //  return res.status(200).json(util.successFalse(statusCode.BAD_REQUEST, error.details[0].message));
 
     const { challengeIdx } = req.body;
     const userIdx = req.decoded.idx;
