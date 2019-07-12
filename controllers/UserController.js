@@ -233,7 +233,7 @@ const UserController = {
       console.log(userIdx);
 
       // get nickname from params
-      const nicknameToSearch = req.params.nickname;
+      const nicknameToSearch = req.body.nickname;
 
       // search the nickname
       const searchResult = await userModel.findByNickname(nicknameToSearch);
@@ -298,17 +298,25 @@ const UserController = {
       // get userIdx from token
       const userIdx = req.decoded.idx;
 
+      console.log(userIdx);
+
       // get friend list
       const friendList = await userModel.findAllFriendsByUserIdx(userIdx);
+      console.log(friendList);
       if (friendList.length === 0)
         return res
           .status(200)
           .json(successFalse(statusCode.NO_CONTENT, responseMessage.NO_FRIENDS));
 
       // send response
+
+      const responseData = friendList.map(elem => ({
+        ...elem,
+        profileImg: elem.profileImg ? elem.profileImg : ""
+      }));
       return res
         .status(200)
-        .json(successTrue(statusCode.OK, responseMessage.GET_FRIEND_LIST_SUCCESS, friendList));
+        .json(successTrue(statusCode.OK, responseMessage.GET_FRIEND_LIST_SUCCESS, responseData));
     } catch (error) {
       return next(error);
     }
