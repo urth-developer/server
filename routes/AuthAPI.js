@@ -17,5 +17,8 @@ module.exports =router =>{
     /*****신고 할 수 있는 챌린지 리스트 조회 */
     router.route('/auth/report/:challengeIdx').get(auth.isLoggedin,authController.searchReportImageList)
 
+    /****인증 완료 결과에서 현재 해당 챌린지 인증 카운트 */
+    router.route('/auth/result/:challengeIdx').get(auth.isLoggedin,authController.searchAuthResult)
+
     return router;
 }

@@ -95,6 +95,7 @@ const AuthController = {
           return next(err);
         } else {
           const url = s3Url + req.file.originalname;
+          c
           console.log(url);
           try {
             await authModel.insertAuthChallenge(userIdx, challengeIdx, url);
@@ -142,6 +143,22 @@ const AuthController = {
     } catch (error) {
       return next(error);
     }
+  },
+  searchAuthResult : async (req, res, next)=>{
+    try {
+      const challengeIdx = req.params.challengeIdx;
+      const userIdx = req.decoded.idx;db
+      /****** */
+
+
+ 
+      res.json(
+        utils.successTrue(statusCode.OK, responseMessage.SEARCH_REPORT_IMG_SUCCESS, result[0])
+      );
+    } catch (error) {
+      return next(error);
+    }
+
   }
 };
 module.exports = AuthController;
