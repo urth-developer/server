@@ -35,6 +35,7 @@ const AuthController = {
       Key:  dateString+req.file.originalname,
       Body: new Buffer(req.file.buffer, "binary")
     };
+    console.log("idx",result[0].machineLearningCategoryIdx)
     if (result[0].machineLearningCategoryIdx != 1) {
       //2.필요 할경우, 판별해서 아니면 인증 실패
       try {

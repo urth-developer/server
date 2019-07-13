@@ -41,7 +41,7 @@ const challengeModel = {
 
     updateReportImage :async(authChallengeIdx)=>{
         try{
-           
+           console.log(authChallengeIdx)
            await db.query(updateReportImageQuery,[authChallengeIdx])
                     
         }catch(e)
