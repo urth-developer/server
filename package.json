@@ -9,7 +9,7 @@
     "@hapi/joi": "^15.1.0",
     "@tensorflow/tfjs": "^1.2.2",
     "async": "^3.1.0",
-    "aws-sdk": "^2.491.0",
+    "aws-sdk": "^2.814.0",
     "buffer-to-stream": "^1.0.0",
     "cookie-parser": "~1.4.3",
     "crypto-promise": "^2.1.0",
